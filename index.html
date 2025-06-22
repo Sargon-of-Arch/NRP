@@ -1,262 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>National Reform Organization</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRP - Akkadian Revival</title>
   <style>
-    /* ----- Global Reset and Base Styles ----- */
+    :root {
+      --bg: #121212;
+      --fg: #e0e0e0;
+      --accent: #6f8f72;
+      --highlight: #d1a75d;
+    }
+
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background-color: #1a1a1a; /* Dark charcoal background */
-      color: #ddd; /* Light gray text */
-      line-height: 1.6;
-      padding: 0;
       margin: 0;
-    }
-    img {
-      max-width: 100%;
-      height: auto; /* Responsive images:contentReference[oaicite:17]{index=17} */
-    }
-    h1, h2 {
-      color: #ddd;
-      margin-bottom: 0.5em;
+      padding: 0;
     }
 
-    /* ----- Navigation Menu ----- */
-    nav {
-      background-color: #212121; /* slightly lighter dark */
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 10;
-    }
-    nav ul {
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      list-style: none;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    nav li {
-      margin: 0.5em;
+
+    header {
+      background: #1c1c1c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--highlight);
+    }
+
     nav a {
-      color: #ccc;
+      margin-left: 1.5rem;
       text-decoration: none;
-      padding: 0.5em 1em;
-      border-radius: 4px;
-      transition: background-color 0.3s, color 0.3s;
+      color: var(--fg);
+      transition: color 0.3s;
     }
-    nav a.active,
+
     nav a:hover {
-      background-color: #556B2F; /* dark olive green highlight */
-      color: #fff;
+      color: var(--highlight);
     }
 
-    /* ----- Content Sections (Panels) ----- */
-    .panel {
+    .container {
+      flex: 1;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    section {
+      margin-bottom: 3rem;
       display: none;
-      opacity: 0;
-      padding: 6em 2em 2em 2em; /* top padding accounts for fixed nav */
-      transition: opacity 0.5s ease; /* fade transition:contentReference[oaicite:18]{index=18} */
     }
-    .panel.active {
+
+    section.active {
       display: block;
-      opacity: 1;
+      animation: fadeIn 0.5s ease;
     }
 
-    /* ----- Home Section ----- */
-    #home img {
-      border: 2px solid #444;
-      margin-bottom: 1em;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 300px;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* ----- About, Language, Projects, Community ----- */
-    /* Simple styling for sections */
-    .panel p {
-      margin-bottom: 1em;
-    }
-    .language-list, .projects-list {
-      list-style: disc inside;
-    }
-
-    /* ----- Audio Player ----- */
-    .audio-player {
-      margin: 1em 0;
-    }
     audio {
       width: 100%;
-      outline: none;
+      margin-top: 1rem;
     }
 
-    /* ----- Login/Create Account Form ----- */
     form {
-      max-width: 300px;
-      margin: 1em auto;
-      padding: 1em;
-      background-color: #262626;
-      border: 1px solid #333;
-      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
     }
-    form label {
-      display: block;
-      margin-bottom: 0.5em;
-      color: #ccc;
-    }
-    form input {
-      width: 100%;
-      padding: 0.5em;
-      margin-bottom: 1em;
-      background: #1e1e1e;
-      border: 1px solid #444;
-      color: #ddd;
-      border-radius: 4px;
-      transition: border-color 0.3s;
-    }
-    form input:focus {
-      border-color: #CE8946; /* bronze accent on focus */
-      outline: none;
-    }
-    form button {
-      width: 100%;
-      padding: 0.6em;
-      background-color: #556B2F;
+
+    input, button {
+      padding: 0.75rem;
       border: none;
-      border-radius: 4px;
-      color: #fff;
+      border-radius: 5px;
+      background: #2b2b2b;
+      color: var(--fg);
+    }
+
+    button {
+      background-color: var(--highlight);
+      color: #121212;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    form button:hover {
-      background-color: #435823;
     }
 
-    /* ----- Responsive Adjustments ----- */
-    @media(max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        align-items: center;
-      }
-      nav li {
-        margin: 0.3em 0;
-      }
+    img.hero {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo">𒀭 NRP</div>
+    <nav>
+      <a href="#home" onclick="showSection('home')">Home</a>
+      <a href="#about" onclick="showSection('about')">About</a>
+      <a href="#language" onclick="showSection('language')">Language</a>
+      <a href="#projects" onclick="showSection('projects')">Projects</a>
+      <a href="#account" onclick="showSection('account')">Account</a>
+    </nav>
+  </header>
 
-  <!-- Navigation Menu -->
-  <nav>
-    <ul>
-      <li><a href="#home" class="nav-link active">Home</a></li>
-      <li><a href="#about" class="nav-link">About</a></li>
-      <li><a href="#language" class="nav-link">Language</a></li>
-      <li><a href="#projects" class="nav-link">Projects</a></li>
-      <li><a href="#community" class="nav-link">Community</a></li>
-      <li><a href="#account" class="nav-link">Account</a></li>
-    </ul>
-  </nav>
+  <div class="container">
+    <section id="home" class="active">
+      <h1>Welcome</h1>
+      <p>This is the start of our Akkadian revival project.</p>
+      <img src="hammurabi.png" alt="Hammurabi" class="hero" />
+      <audio controls>
+        <source src="Carolus_Rex.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </section>
 
-  <!-- Home Section -->
-  <div id="home" class="panel active">
-    <img src="hammurabi.png" alt="Stele of Hammurabi (Louvre Museum, side view)">
-    <h1>Welcome to the Silent Hill–Themed Site</h1>
-    <p>This site uses a dark, muted design inspired by Silent Hill 2: gray and olive tones, subtle shadows, and a quiet, eerie vibe. Navigation links above switch sections with a smooth fade transition:contentReference[oaicite:19]{index=19}.</p>
+    <section id="about">
+      <h1>About</h1>
+      <p>We are a group of passionate individuals dedicated to reviving Akkadian using the Syriac script, rooted in cultural preservation and linguistic precision.</p>
+    </section>
+
+    <section id="language">
+      <h1>Language</h1>
+      <p>Resources, guides, and vocabulary lists to support learners of the modernized Akkadian system.</p>
+    </section>
+
+    <section id="projects">
+      <h1>Projects</h1>
+      <p>Coming soon: NRP Online Dictionary, Akkadian Keyboard, and interactive grammar guides.</p>
+    </section>
+
+    <section id="account">
+      <h1>Create Account</h1>
+      <form onsubmit="event.preventDefault(); alert('No backend yet!')">
+        <input type="text" placeholder="Username" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Sign Up</button>
+      </form>
+    </section>
   </div>
 
-  <!-- About Section -->
-  <div id="about" class="panel">
-    <h2>About</h2>
-    <p>This section contains information about the site or person. For example, describe your background in a concise way. The design keeps text clear and prominent against the dark background:contentReference[oaicite:20]{index=20}.</p>
-  </div>
-
-  <!-- Language Section -->
-  <div id="language" class="panel">
-    <h2>Language</h2>
-    <p>List programming languages or spoken languages here:</p>
-    <ul class="language-list">
-      <li>English (Fluent)</li>
-      <li>French (Intermediate)</li>
-      <li>Spanish (Beginner)</li>
-      <li>JavaScript, Python, C#</li>
-    </ul>
-  </div>
-
-  <!-- Projects Section -->
-  <div id="projects" class="panel">
-    <h2>Projects</h2>
-    <p>Showcase some projects or work. For example:</p>
-    <ul class="projects-list">
-      <li><strong>Project A:</strong> A brief description of project A in a few words.</li>
-      <li><strong>Project B:</strong> Another project description with a darker theme.</li>
-      <li><strong>Open-Source:</strong> Contributions or repos can be listed here.</li>
-    </ul>
-  </div>
-
-  <!-- Community Section -->
-  <div id="community" class="panel">
-    <h2>Community</h2>
-    <p>Links to social profiles or communities can go here. For example:</p>
-    <ul>
-      <li><a href="#" style="color:#556B2F;">GitHub</a></li>
-      <li><a href="#" style="color:#556B2F;">LinkedIn</a></li>
-      <li><a href="#" style="color:#556B2F;">Twitter</a></li>
-    </ul>
-    <p>The accent color (olive) is used for links to fit the aesthetic:contentReference[oaicite:21]{index=21}:contentReference[oaicite:22]{index=22}.</p>
-  </div>
-
-  <!-- Account (Create/Login) Section -->
-  <div id="account" class="panel">
-    <h2>Create Account</h2>
-    <form>
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Username">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Password">
-      <button type="submit">Sign Up</button>
-    </form>
-    <p><em>Note:</em> This form is for demonstration only and does not submit to a server.</p>
-  </div>
-
-  <!-- Audio Player Section (in Footer of Home for example) -->
-  <div class="audio-player panel" id="audio">
-    <h2>Now Playing</h2>
-    <audio controls>
-      <source src="Carolus_Rex.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <p><small>Music: "Carolus Rex" by Sabaton (user-activated, no autoplay:contentReference[oaicite:23]{index=23}).</small></p>
-  </div>
-
-  <!-- JavaScript to handle tab switching -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const links = document.querySelectorAll('.nav-link');
-      const panels = document.querySelectorAll('.panel');
-      links.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          // Remove active from all
-          links.forEach(l => l.classList.remove('active'));
-          panels.forEach(p => p.classList.remove('active'));
-          // Activate selected
-          this.classList.add('active');
-          const target = this.getAttribute('href').substring(1);
-          document.getElementById(target).classList.add('active');
-        });
-      });
-    });
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
   </script>
 </body>
 </html>
