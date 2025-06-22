@@ -1,195 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NRP - New Rise Project</title>
-  <link rel="icon" type="image/png" href="hammurabi.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>National Reform Organization</title>
+  <link rel="icon" type="image/png" href="hammurabi.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #000;
+      --text: #eee;
+      --accent: #00ffff;
+      --accent2: #b300ff;
+      --card-bg: #111;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      background-color: #0f0f0f;
-      color: #e5e5e5;
-      overflow-x: hidden;
+      background-color: var(--bg);
+      color: var(--text);
     }
 
-    nav {
-      background-color: #151515;
-      padding: 1em 2em;
+    header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-      position: sticky;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--accent);
+      position: fixed;
       top: 0;
-      z-index: 100;
+      width: 100%;
+      z-index: 1000;
     }
 
     .logo {
-      font-weight: bold;
-      color: #d2af4c;
-      font-size: 1.5em;
-      letter-spacing: 1px;
-    }
-
-    .menu {
       display: flex;
-      gap: 1.5em;
+      align-items: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--accent);
     }
 
-    .menu a {
-      color: #e5e5e5;
+    .logo img {
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
       text-decoration: none;
-      position: relative;
-      transition: color 0.3s ease;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
     }
 
-    .menu a::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background-color: #d2af4c;
-      left: 0;
-      bottom: -4px;
-      transition: width 0.3s ease;
-    }
-
-    .menu a:hover {
-      color: #d2af4c;
-    }
-
-    .menu a:hover::after {
-      width: 100%;
+    nav a:hover {
+      color: var(--accent);
     }
 
     .section {
-      padding: 4em 2em;
-      max-width: 1000px;
-      margin: auto;
+      display: none;
+      padding: 6rem 2rem 2rem;
+      min-height: 100vh;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     h1, h2 {
-      color: #f1c40f;
-      margin-bottom: 1em;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
 
-    p, li {
-      line-height: 1.7;
-      color: #ccc;
-    }
-
-    .audio-controls {
-      margin: 2em 0;
-    }
-
-    .form-container {
-      background-color: #1a1a1a;
-      padding: 2em;
+    .audio-player {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--accent2);
+      padding: 0.5rem;
       border-radius: 8px;
-      max-width: 400px;
-      margin: auto;
+      z-index: 9999;
+      box-shadow: 0 0 10px var(--accent2);
     }
 
-    .form-container label {
-      display: block;
-      margin-bottom: 0.5em;
-      font-weight: bold;
-    }
-
-    .form-container input {
-      width: 100%;
-      padding: 0.5em;
-      margin-bottom: 1em;
-      border: 1px solid #444;
-      background-color: #111;
-      color: #eee;
-      border-radius: 4px;
-    }
-
-    .form-container button {
-      width: 100%;
-      padding: 0.7em;
-      background-color: #d2af4c;
+    .btn {
+      background-color: var(--accent2);
+      color: white;
+      padding: 0.7rem 1.2rem;
       border: none;
-      color: #000;
-      font-weight: bold;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
-    .form-container button:hover {
-      background-color: #b99436;
+    .btn:hover {
+      background-color: #8000cc;
+    }
+
+    section p {
+      max-width: 800px;
     }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="logo">NRP</div>
-    <div class="menu">
-      <a href="#home">Home</a>
-      <a href="#mission">Mission</a>
-      <a href="#language">Language</a>
-      <a href="#projects">Projects</a>
-      <a href="#account">Join</a>
+  <header>
+    <div class="logo">
+      <img src="hammurabi.png" alt="Logo" />
+      National Reform Organization
     </div>
-  </nav>
+    <nav>
+      <ul>
+        <li><a href="#" data-target="home">Home</a></li>
+        <li><a href="#" data-target="language">Language Revival Project</a></li>
+        <li><a href="#" data-target="goals">Our Goals</a></li>
+        <li><a href="#" data-target="report">Whistleblow / Report Abuse</a></li>
+        <li><a href="#" data-target="contact">Contact & Join Us</a></li>
+        <li><a href="#" data-target="news">News & Updates</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <section id="home" class="section">
-    <h1>New Rise Project</h1>
-    <p>We are the voice of Mesopotamia’s return — resisting oppression, defending women and children, and reviving the soul of a forgotten land. Our mission is cultural, political, and unapologetically just.</p>
-    <div class="audio-controls">
-      <h3>Theme: Carolus Rex</h3>
-      <audio controls>
-        <source src="Carolus_Rex.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-  </section>
-
-  <section id="mission" class="section">
-    <h2>Our Mission</h2>
-    <p>To unite and awaken Mesopotamia’s remnants, push back against tyranny, and demand dignity for the abused and voiceless. Through activism, media, and culture, we shape a new force that speaks Akkadian in code and truth in rage.</p>
+  <section id="home" class="section active">
+    <h1>Welcome</h1>
+    <p>We are the National Reform Organization. We advocate for radical political and social reform in Iraq. Our mission is to revive heritage, protect the abused, and challenge corruption — from the grassroots to the highest institutions.</p>
   </section>
 
   <section id="language" class="section">
-    <h2>Language Revival</h2>
-    <p>The Akkadian language, reborn through the Syriac script — a poetic resurrection of our roots. Join us in restoring its vocabulary, syntax, and soul.</p>
+    <h2>Language Revival Project</h2>
+    <p>Our initiative aims to revive the ancient Akkadian language using modern tools and scripts like Syriac. It's not just culture — it's resistance through identity, memory, and permanence.</p>
   </section>
 
-  <section id="projects" class="section">
-    <h2>Our Projects</h2>
+  <section id="goals" class="section">
+    <h2>Our Goals</h2>
     <ul>
-      <li>Women’s Shelter Protection Networks</li>
-      <li>Akkadian Language Web Apps (in progress)</li>
-      <li>Exposing Government Corruption (Reports)</li>
-      <li>Educational Outreach in Rural Mesopotamia</li>
+      <li>Expose and resist political corruption.</li>
+      <li>Protect women, children, and minorities from abuse and silencing.</li>
+      <li>Revive Mesopotamian heritage and dignity through language and culture.</li>
+      <li>Build a new national conscience — one rooted in truth, accountability, and strength.</li>
     </ul>
   </section>
 
-  <section id="account" class="section">
-    <h2>Join the Project</h2>
-    <div class="form-container">
-      <form>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit">Create Account</button>
-      </form>
-    </div>
+  <section id="report" class="section">
+    <h2>Whistleblow / Report Abuse</h2>
+    <p>If you've witnessed or experienced abuse, especially involving government agents or militias, contact us securely. Your voice matters.</p>
+    <button class="btn">Send Secure Report</button>
   </section>
+
+  <section id="contact" class="section">
+    <h2>Contact & Join Us</h2>
+    <p>We're building a national movement — and you're invited. Get in touch to join, collaborate, or support our cause.</p>
+    <button class="btn">Email Us</button>
+  </section>
+
+  <section id="news" class="section">
+    <h2>News & Updates</h2>
+    <p>Stay informed about our campaigns, publications, and nationwide actions. We speak when others stay silent.</p>
+    <button class="btn">Read Our Statements</button>
+  </section>
+
+  <div class="audio-player">
+    <audio controls>
+      <source src="Carolus_Rex.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    const links = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('.section');
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.getAttribute('data-target');
+        sections.forEach(section => section.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
