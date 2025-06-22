@@ -1,182 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NRP</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NRP - New Rise Project</title>
+  <link rel="icon" type="image/png" href="hammurabi.png">
   <style>
-    :root {
-      --bg: #121212;
-      --card: #1e1e1e;
-      --text: #e0e0e0;
-      --accent: #ceb66f;
-      --hover: #a08f5c;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     body {
-      margin: 0;
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('hammurabi.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background-color: #0f0f0f;
+      color: #e5e5e5;
+      overflow-x: hidden;
     }
 
-    .overlay {
-      background: rgba(18,18,18, 0.9);
-      min-height: 100vh;
-      padding: 0;
-    }
-
-    header {
+    nav {
+      background-color: #151515;
+      padding: 1em 2em;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1em 2em;
-      background-color: rgba(30,30,30, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 100;
     }
 
-    header h1 {
-      color: var(--accent);
-      margin: 0;
-      font-size: 1.5rem;
+    .logo {
+      font-weight: bold;
+      color: #d2af4c;
+      font-size: 1.5em;
+      letter-spacing: 1px;
     }
 
-    nav ul {
-      list-style: none;
+    .menu {
       display: flex;
       gap: 1.5em;
-      margin: 0;
     }
 
-    nav a {
-      color: var(--text);
+    .menu a {
+      color: #e5e5e5;
       text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
+      position: relative;
+      transition: color 0.3s ease;
     }
 
-    nav a:hover {
-      color: var(--hover);
+    .menu a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background-color: #d2af4c;
+      left: 0;
+      bottom: -4px;
+      transition: width 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #d2af4c;
+    }
+
+    .menu a:hover::after {
+      width: 100%;
     }
 
     .section {
       padding: 4em 2em;
-      max-width: 800px;
+      max-width: 1000px;
       margin: auto;
     }
 
-    .card {
-      background-color: var(--card);
+    h1, h2 {
+      color: #f1c40f;
+      margin-bottom: 1em;
+    }
+
+    p, li {
+      line-height: 1.7;
+      color: #ccc;
+    }
+
+    .audio-controls {
+      margin: 2em 0;
+    }
+
+    .form-container {
+      background-color: #1a1a1a;
       padding: 2em;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-
-    .audio-player {
-      margin-top: 1em;
-      width: 100%;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
-
-    input {
-      padding: 0.7em;
-      background: #181818;
-      border: 1px solid #333;
-      color: var(--text);
       border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
     }
 
-    button {
+    .form-container label {
+      display: block;
+      margin-bottom: 0.5em;
+      font-weight: bold;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #444;
+      background-color: #111;
+      color: #eee;
+      border-radius: 4px;
+    }
+
+    .form-container button {
+      width: 100%;
       padding: 0.7em;
-      background-color: var(--accent);
+      background-color: #d2af4c;
+      border: none;
       color: #000;
       font-weight: bold;
-      border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
-      background-color: var(--hover);
+    .form-container button:hover {
+      background-color: #b99436;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <header>
-      <h1>NRP</h1>
-      <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#community">Community</a></li>
-          <li><a href="#account">Account</a></li>
-        </ul>
-      </nav>
-    </header>
+  <nav>
+    <div class="logo">NRP</div>
+    <div class="menu">
+      <a href="#home">Home</a>
+      <a href="#mission">Mission</a>
+      <a href="#language">Language</a>
+      <a href="#projects">Projects</a>
+      <a href="#account">Join</a>
+    </div>
+  </nav>
 
-    <section class="section" id="home">
-      <div class="card">
-        <h2>Welcome</h2>
-        <p>This is the beginning of something ancient, and something new.</p>
-        <div class="audio-player">
-          <audio controls>
-            <source src="Carolus_Rex.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      </div>
-    </section>
+  <section id="home" class="section">
+    <h1>New Rise Project</h1>
+    <p>We are the voice of Mesopotamia’s return — resisting oppression, defending women and children, and reviving the soul of a forgotten land. Our mission is cultural, political, and unapologetically just.</p>
+    <div class="audio-controls">
+      <h3>Theme: Carolus Rex</h3>
+      <audio controls>
+        <source src="Carolus_Rex.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </section>
 
-    <section class="section" id="about">
-      <div class="card">
-        <h2>About</h2>
-        <p>We are reviving the Akkadian language with modern tools, shaping identity and power through ancient roots.</p>
-      </div>
-    </section>
+  <section id="mission" class="section">
+    <h2>Our Mission</h2>
+    <p>To unite and awaken Mesopotamia’s remnants, push back against tyranny, and demand dignity for the abused and voiceless. Through activism, media, and culture, we shape a new force that speaks Akkadian in code and truth in rage.</p>
+  </section>
 
-    <section class="section" id="projects">
-      <div class="card">
-        <h2>Projects</h2>
-        <ul>
-          <li>Lexicon Builder</li>
-          <li>Grammar Compiler</li>
-          <li>Mobile App Companion</li>
-        </ul>
-      </div>
-    </section>
+  <section id="language" class="section">
+    <h2>Language Revival</h2>
+    <p>The Akkadian language, reborn through the Syriac script — a poetic resurrection of our roots. Join us in restoring its vocabulary, syntax, and soul.</p>
+  </section>
 
-    <section class="section" id="community">
-      <div class="card">
-        <h2>Community</h2>
-        <p>Join us, contribute, share thoughts, and help carry the flame forward.</p>
-      </div>
-    </section>
+  <section id="projects" class="section">
+    <h2>Our Projects</h2>
+    <ul>
+      <li>Women’s Shelter Protection Networks</li>
+      <li>Akkadian Language Web Apps (in progress)</li>
+      <li>Exposing Government Corruption (Reports)</li>
+      <li>Educational Outreach in Rural Mesopotamia</li>
+    </ul>
+  </section>
 
-    <section class="section" id="account">
-      <div class="card">
-        <h2>Create Account</h2>
-        <form class="form">
-          <input type="text" placeholder="Username" required />
-          <input type="password" placeholder="Password" required />
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    </section>
-  </div>
+  <section id="account" class="section">
+    <h2>Join the Project</h2>
+    <div class="form-container">
+      <form>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+  </section>
 </body>
 </html>
