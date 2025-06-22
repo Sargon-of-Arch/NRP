@@ -10,22 +10,24 @@
     :root {
       --bg-dark: #0d0d0d;
       --accent-gold: #bfa76f;
-      --accent-hover: #ffd700;
+      --accent-gold-hover: #ffd700;
       --text-main: #f0f0f0;
       --menu-width: 240px;
+      --transition-speed: 0.3s;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', Arial, sans-serif;
     }
 
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
       display: flex;
+      flex-wrap: wrap;
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -38,67 +40,60 @@
       top: 0;
       left: 0;
       bottom: 0;
-      z-index: 10;
+      z-index: 100;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 20px;
-      font-weight: bold;
+      gap: 12px;
+      font-size: 1.3rem;
+      font-weight: 700;
       color: var(--accent-gold);
       margin-bottom: 2em;
       font-family: 'Merriweather', serif;
     }
 
     .logo img {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
     }
 
     .nav-links {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 1.3em;
     }
 
     .nav-links a {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 16px;
-      transition: color 0.3s;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: background var(--transition-speed);
     }
 
     .nav-links a:hover,
     .nav-links a.active {
-      color: var(--accent-hover);
+      color: var(--accent-gold-hover);
+      background-color: #222;
     }
 
     .main-content {
       margin-left: var(--menu-width);
       padding: 2em;
       flex: 1;
-      resize: both;
-      overflow: auto;
-      min-height: 80vh;
       min-width: 300px;
-      background: #141414;
-      border-radius: 8px;
     }
 
     section {
       display: none;
-      animation: fadeIn 0.4s ease forwards;
     }
 
     section.active {
       display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     h1 {
@@ -107,20 +102,35 @@
       margin-bottom: 1em;
     }
 
-    p, li {
+    p, ul, li {
+      font-size: 1rem;
       line-height: 1.6;
-      font-size: 16px;
     }
 
     ul {
       list-style: disc inside;
     }
 
+    .news-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1em;
+    }
+
     .news-card {
       background: #222;
       padding: 1em;
       border-radius: 10px;
-      margin-bottom: 1em;
+    }
+
+    .audio-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #222;
+      padding: 10px;
+      border: 1px solid var(--accent-gold);
+      border-radius: 5px;
     }
 
     form {
@@ -148,17 +158,7 @@
     }
 
     button:hover {
-      background-color: var(--accent-hover);
-    }
-
-    .audio-player {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #222;
-      padding: 10px;
-      border: 1px solid var(--accent-gold);
-      border-radius: 5px;
+      background-color: var(--accent-gold-hover);
     }
 
     @media (max-width: 768px) {
@@ -171,11 +171,10 @@
       }
       .main-content {
         margin-left: 0;
-        margin-top: 1em;
       }
       .nav-links {
         flex-direction: row;
-        gap: 2em;
+        gap: 1em;
       }
     }
   </style>
@@ -198,34 +197,36 @@
 
   <div class="main-content">
     <section id="home" class="active">
-      <h1>Welcome to the National Reform Organization</h1>
-      <p>Reviving identity. Protecting the vulnerable. Fighting corruption.</p>
+      <h1>Welcome</h1>
+      <p>Welcome to the National Reform Organization homepage. United against corruption. Bound by identity.</p>
     </section>
 
     <section id="language">
       <h1>Language Revival Project</h1>
-      <p>We are bringing back the Mesopotamian soul through Akkadian, using the Syriac script for accessibility and cultural unity.</p>
+      <p>Bringing back Akkadian using Syriac script. Language is resistance.</p>
     </section>
 
     <section id="goals">
       <h1>Our Goals</h1>
       <ul>
-        <li>Expose and dismantle systemic corruption</li>
-        <li>Protect women, children, and marginalized groups</li>
-        <li>Re-establish cultural and linguistic identity</li>
-        <li>Unify national movements against tyranny</li>
+        <li>Expose systemic corruption</li>
+        <li>Protect women, children, and minorities</li>
+        <li>Rebuild Mesopotamian identity</li>
+        <li>Unite national reform efforts</li>
       </ul>
     </section>
 
     <section id="news">
       <h1>Latest News</h1>
-      <div class="news-card">
-        <h3>Major Protest in Baghdad</h3>
-        <p>Thousands rally against corruption and foreign influence, demanding reform.</p>
-      </div>
-      <div class="news-card">
-        <h3>Language Revival Progress</h3>
-        <p>First pilot lessons for revived Akkadian using Syriac script launched in multiple regions.</p>
+      <div class="news-container">
+        <div class="news-card">
+          <h3>Whistleblower Protection Expanded</h3>
+          <p>New encrypted channels established to protect citizen reporters from regime threats.</p>
+        </div>
+        <div class="news-card">
+          <h3>Protest in Erbil</h3>
+          <p>Thousands march demanding removal of Iranian proxy figures.</p>
+        </div>
       </div>
     </section>
 
@@ -241,12 +242,12 @@
 
     <section id="contact">
       <h1>Contact Us</h1>
-      <p>You may reach us at <strong>nationalreformorganization@gmail.com</strong> or use the form below to report, join, or whistleblow.</p>
+      <p>Use this form or email <strong>nationalreformorganization@gmail.com</strong></p>
       <form>
         <input type="text" placeholder="Your Name" required />
         <input type="email" placeholder="Your Email" required />
         <textarea rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
+        <button type="submit">Send</button>
       </form>
     </section>
   </div>
