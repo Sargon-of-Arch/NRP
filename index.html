@@ -277,3 +277,71 @@
       backdrop-filter: blur(6px);
       user-select: none;
       transition: box
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .main-content {
+    margin-left: 0;
+    margin-top: 70px;
+  }
+}
+<section id=\"language\">
+  <h1>Language Revival Project</h1>
+  <p>Bringing back Akkadian using Syriac script. Language is resistance.</p>
+</section>
+
+<section id=\"goals\">
+  <h1>Our Goals</h1>
+  <ul>
+    <li>Expose systemic corruption</li>
+    <li>Protect women, children, and minorities</li>
+    <li>Rebuild Mesopotamian identity</li>
+    <li>Unite national reform efforts</li>
+  </ul>
+</section>
+
+<section id=\"news\">
+  <h1>Latest News</h1>
+  <div class=\"news-container\">
+    <div class=\"news-card\">
+      <h3>Whistleblower Protection Expanded</h3>
+      <p>New encrypted channels established to protect citizen reporters from regime threats.</p>
+    </div>
+    <div class=\"news-card\">
+      <h3>Protest in Erbil</h3>
+      <p>Thousands march demanding removal of Iranian proxy figures.</p>
+    </div>
+  </div>
+</section>
+
+<section id=\"account\">
+  <h1>Create an Account</h1>
+  <form>
+    <input type=\"text\" placeholder=\"Username\" required />
+    <input type=\"email\" placeholder=\"Email\" required />
+    <input type=\"password\" placeholder=\"Password\" required />
+    <button type=\"submit\">Register</button>
+  </form>
+</section>
+
+<section id=\"contact\">
+  <h1>Contact Us</h1>
+  <p>Use this form or email <strong>nationalreformorganization@gmail.com</strong></p>
+  <form>
+    <input type=\"text\" placeholder=\"Your Name\" required />
+    <input type=\"email\" placeholder=\"Your Email\" required />
+    <textarea rows=\"5\" placeholder=\"Your Message\" required></textarea>
+    <button type=\"submit\">Send</button>
+  </form>
+</section>
