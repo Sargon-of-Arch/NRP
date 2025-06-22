@@ -23,11 +23,14 @@
       font-family: 'Open Sans', Arial, sans-serif;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
       display: flex;
-      flex-wrap: wrap;
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -41,6 +44,11 @@
       left: 0;
       bottom: 0;
       z-index: 100;
+
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
     }
 
     .logo {
@@ -52,6 +60,7 @@
       color: var(--accent-gold);
       margin-bottom: 2em;
       font-family: 'Merriweather', serif;
+      flex-shrink: 0;
     }
 
     .logo img {
@@ -61,8 +70,10 @@
 
     .nav-links {
       display: flex;
-      flex-direction: column;
-      gap: 1.3em;
+      flex-wrap: wrap;
+      gap: 1em;
+      flex-grow: 1;
+      align-content: flex-start;
     }
 
     .nav-links a {
@@ -73,6 +84,9 @@
       border-radius: 5px;
       font-weight: 600;
       transition: background var(--transition-speed);
+      white-space: normal;
+      min-width: 120px;
+      flex: 1 1 auto;
     }
 
     .nav-links a:hover,
@@ -86,7 +100,8 @@
       padding: 2em;
       flex: 1;
       min-width: 300px;
-      max-width: 900px;
+      min-height: 100vh;
+      overflow-y: auto;
     }
 
     section {
@@ -103,18 +118,9 @@
       margin-bottom: 1em;
     }
 
-    h2 {
-      font-family: 'Merriweather', serif;
-      color: var(--accent-gold);
-      margin-top: 1.5em;
-      margin-bottom: 0.75em;
-      font-size: 1.5rem;
-    }
-
     p, ul, li {
       font-size: 1rem;
       line-height: 1.6;
-      margin-bottom: 1em;
     }
 
     ul {
@@ -171,14 +177,6 @@
       background-color: var(--accent-gold-hover);
     }
 
-    /* Scrollable manifesto content */
-    #manifesto {
-      max-height: 75vh;
-      overflow-y: auto;
-      padding-right: 10px;
-      user-select: text;
-    }
-
     @media (max-width: 768px) {
       .sidebar {
         position: static;
@@ -186,13 +184,23 @@
         display: flex;
         flex-direction: row;
         overflow-x: auto;
+        height: auto;
+        padding: 1em;
       }
       .main-content {
         margin-left: 0;
+        min-height: auto;
       }
       .nav-links {
+        flex-wrap: nowrap;
         flex-direction: row;
         gap: 1em;
+        align-content: normal;
+      }
+      .nav-links a {
+        min-width: auto;
+        white-space: nowrap;
+        flex: 0 0 auto;
       }
     }
   </style>
@@ -207,8 +215,8 @@
       <a href="#home" class="active">Home</a>
       <a href="#language">Language Revival Project</a>
       <a href="#goals">Our Goals</a>
-      <a href="#news">News</a>
       <a href="#manifesto">Manifesto</a>
+      <a href="#news">News</a>
       <a href="#account">Create Account</a>
       <a href="#contact">Contact</a>
     </div>
@@ -235,29 +243,17 @@
       </ul>
     </section>
 
-    <section id="news">
-      <h1>Latest News</h1>
-      <div class="news-container">
-        <div class="news-card">
-          <h3>Akkadian Revival Started</h3>
-          <p>The movement to revive the ancient Akkadian language using Syriac script has officially begun.</p>
-        </div>
-      </div>
-    </section>
-
     <section id="manifesto">
-      <h1>National Reform Organisation of Neo-Akkad</h1>
-      <h2>Manifesto</h2>
-
-      <h3>The Scars of Our Past</h3>
+      <h1>National Reform Organisation of Neo-Akkad Manifesto</h1>
+      <h2>The Scars of Our Past</h2>
       <p>Our generation was born in the hell of war and chaos. The lullabies of childhood were replaced by the roar of artillery; our earliest memories are of unstable homes and smoky skies. From the ruins of Baghdad to the deserts beyond, every Iraqi youth knows the sting of fear and the taste of poverty. We were raised in shattered schools and crumbling hospitals, among broken roads and flickering lights, denied the simple securities of a normal life. Our tears flowed in homes with no water, and our schools stood empty as families fled the chaos. This land has given its children nothing but pain and humiliation.</p>
       <p>The failures of the state are not abstract or distant: they are as real as the cracked pavement in our streets and the fumes in our air. Hospitals run short of medicine, schools stand cold and underfunded, and water runs stagnant in the taps. Clean water is a luxury, electricity a whisper. The streets of our cities are filled with potholes and waste, and at dusk we fear the darkness as our lights sputter out. We grew up watching loved ones fall victim to diseases that should have been treated long ago. No institution or garden has been left unbroken by the old regime.</p>
       <p>Iraqi women and girls endure indignities daily. They are often discouraged, sometimes forbidden, from education and enterprise. Their voices are silenced by outdated laws and social pressure. Many young women cannot pursue their ambitions; too many are forced into arranged marriages, shielded from the harsh sun only by the weight of inequality. This is not merely tradition—it is repression, and it must end.</p>
-      <p>Our youth and adolescents, deprived of opportunity, wander European streets in despair or anger. The promise of tomorrow has been stolen, as most of our young people can only find work in low-paid jobs or militia ranks. Skill and talent go unrecognized; ambition is crushed by nepotism and decay. Each day, bright minds flee for a chance at life anywhere but here, draining our nation of its best hopes. A generation of potential leaders, teachers, and innovators has been sidelined, their dreams unfulfilled.</p>
+      <p>Our youth and adolescents, deprived of opportunity, wander european streets in despair or anger. The promise of tomorrow has been stolen, as most of our young people can only find work in low-paid jobs or militia ranks. Skill and talent go unrecognized; ambition is crushed by nepotism and decay. Each day, bright minds flee for a chance at life anywhere but here, draining our nation of its best hopes. A generation of potential leaders, teachers, and innovators has been sidelined, their dreams unfulfilled.</p>
       <p>Corruption is the currency of the ruling class. The government is a cartel of profiteers and puppets, serving not the Iraqi people but foreign interests. Too long have we watched our leadership bow to the will of Tehran and beyond, signing deals that enrich offshore cronies while our farmers go thirsty and our factories rust. Our sovereignty has been bartered for blood and oil, and we remain the poorest in the land where riches flow. Such treachery is unforgivable.</p>
       <p>Even the very fabric of our national soul is disintegrating. In the city, we lose the local dialects and ancient songs of our fathers. Illiteracy runs rampant in villages forgotten by the state. Whole communities have emptied as families flee violence or seek profit in distant lands. In their stead, tribal strongmen and militias sow fear and trample old codes of civility. Our civic order stands on the brink of collapse.</p>
-
-      <h3>An Ideology for Rebirth: The Akkadian Enlightenment</h3>
+      
+      <h2>An Ideology for Rebirth: The Akkadian Enlightenment</h2>
       <p>Out of these ashes we forge a new doctrine. We name our ideology the Akkadian Enlightenment. It blends the wisdom of the ancients with the needs of the modern world; it borrows the best from every tradition to create a path forward unique to Iraq. The Akkadian Enlightenment rests on four central pillars:</p>
       <ul>
         <li><strong>Individual Liberty and Merit:</strong> We reaffirm the classical liberal ideal that every person has intrinsic worth and unalienable rights. Our economy shall be open and competitive, rewarding hard work and innovation rather than birth or bribes. Education and opportunity will be extended to all, not just the connected. We commit to freedom of speech, conscience, and enterprise within a framework of responsibility and national duty.</li>
@@ -266,57 +262,57 @@
         <li><strong>Guided Monarchy of National Unity:</strong> We reestablish a constitutional monarchy as a unifying symbol above party or sect. The monarch, chosen from the historic line of Sumerian-Akkadian heritage, will embody the continuity and stability of our civilization. This crown is guided by advisors, parliament, and national interest; it is neither absolute nor hollow. It stands as a secular institution that channels the collective will of the people and reinforces the law. In the monarch’s guidance, the rival factions of Iraq find common purpose under the rule of law.</li>
       </ul>
       <p>The Akkadian Enlightenment ideology aims to reconcile liberty with order, progress with tradition, and independence with unity. It draws strength from the deeds of Gilgamesh and Hammurabi while pledging to serve the modern citizen. It places reason and national interest above sectarian strife or foreign dictates.</p>
-
-      <h3>Rebuilding Our Land: Infrastructure and Environment</h3>
+      
+      <h2>Rebuilding Our Land: Infrastructure and Environment</h2>
       <p>We present a bold vision for reconstruction and sustainability. Our urban centers and villages shall be transformed with modern infrastructure and green renewal. Concretely, we will:</p>
       <ul>
-        <li>Rebuild Transportation and Housing: Repair and pave the nation’s roads, connect villages with bridges and highways, and build public housing to replace shanties and war ruins. Bumps, trenches, and ponds in our streets will become mere memories.</li>
-        <li>Clean Water and Sanitation: Construct dams and reservoirs to capture rain and river water, lay new pipelines, and build wastewater treatment plants. Every citizen will have access to clean, potable water and functioning sewage systems in their community.</li>
-        <li>Reliable Electricity and Energy: Modernize the power grid from north to south. We will invest in a mix of energy sources—solar arrays across the deserts, wind farms on our plains, and upgraded power stations—to ensure affordable 24-hour electricity. Rolling blackouts will be eliminated.</li>
-        <li>Environmental Stewardship and Greening: Launch a national greening initiative. We will plant millions of trees along our streets and in the countryside, cultivate parks in our cities, and invest in sustainable agriculture. Desertification will be reversed through modern farming techniques and reforestation. Clean air and a greener Iraq will become our legacy.</li>
+        <li><strong>Rebuild Transportation and Housing:</strong> Repair and pave the nation’s roads, connect villages with bridges and highways, and build public housing to replace shanties and war ruins. Bumps, trenches, and ponds in our streets will become mere memories.</li>
+        <li><strong>Clean Water and Sanitation:</strong> Construct dams and reservoirs to capture rain and river water, lay new pipelines, and build wastewater treatment plants. Every citizen will have access to clean, potable water and functioning sewage systems in their community.</li>
+        <li><strong>Reliable Electricity and Energy:</strong> Modernize the power grid from north to south. We will invest in a mix of energy sources—solar arrays across the deserts, wind farms on our plains, and upgraded power stations—to ensure affordable 24-hour electricity. Rolling blackouts will be eliminated.</li>
+        <li><strong>Environmental Stewardship and Greening:</strong> Launch a national greening initiative. We will plant millions of trees along our streets and in the countryside, cultivate parks in our cities, and invest in sustainable agriculture. Desertification will be reversed through modern farming techniques and reforestation. Clean air and a greener Iraq will become our legacy.</li>
       </ul>
       <p>These projects will be financed by transparent public spending and by ensuring that our oil wealth serves Iraq, not foreign cronies. Our engineers and workers will be the masters of this rebirth, free of patronage and held accountable by law. We will open our cities to public transportation, bicycle paths, and pedestrian zones, recognizing that mobility is a right, not a luxury.</p>
-
-      <h3>Revitalizing Our Society: Services, Education, and Health</h3>
+      
+      <h2>Revitalizing Our Society: Services, Education, and Health</h2>
       <p>The state must fulfill its contract to protect and nurture its people. We will restore and expand social services:</p>
       <ul>
-        <li>Healthcare for All: Build new clinics and hospitals in every province. Supply them with trained doctors, nurses, and medicine. Establish a national health insurance to guarantee free basic care for every citizen. Preventive medicine and vaccination programs will reduce child mortality and disease. No Iraqi should die for lack of treatment.</li>
-        <li>Universal Education: Rebuild schools and train teachers. Education from primary through university will be free, secular, and available to every boy and girl. Curricula will include science, technology, and the history of our people. We will restore literacy to the countryside and teach in local dialects where appropriate, alongside Arabic and English, so no child is left behind by language barriers.</li>
-        <li>Public Sanitation and Safety: Establish efficient garbage collection, sewage systems, and clean public spaces. Street lighting and neighborhood watch programs will ensure safety after dark. We will hold local governments accountable for cleanliness and health standards, and citizens will have the right to demand a basic quality of life.</li>
-        <li>Economic Opportunity: Complementing education, we will create job training programs in trades, crafts, and technology. Micro-loans and state-supported cooperatives will help graduates start businesses. Special economic zones will revive industry and agriculture with incentives for innovation and fair wages. Our economy will be neither entirely free-market nor state-run, but a collaborative enterprise that empowers citizens to earn a dignified living without nepotism.</li>
+        <li><strong>Healthcare for All:</strong> Build new clinics and hospitals in every province. Supply them with trained doctors, nurses, and medicine. Establish a national health insurance to guarantee free basic care for every citizen. Preventive medicine and vaccination programs will reduce child mortality and disease. No Iraqi should die for lack of treatment.</li>
+        <li><strong>Universal Education:</strong> Rebuild schools and train teachers. Education from primary through university will be free, secular, and available to every boy and girl. Curricula will include science, technology, and the history of our people. We will restore literacy to the countryside and teach in local dialects where appropriate, alongside Arabic and English, so no child is left behind by language barriers.</li>
+        <li><strong>Public Sanitation and Safety:</strong> Establish efficient garbage collection, sewage systems, and clean public spaces. Street lighting and neighborhood watch programs will ensure safety after dark. We will hold local governments accountable for cleanliness and health standards, and citizens will have the right to demand a basic quality of life.</li>
+        <li><strong>Economic Opportunity:</strong> Complementing education, we will create job training programs in trades, crafts, and technology. Micro-loans and state-supported cooperatives will help graduates start businesses. Special economic zones will revive industry and agriculture with incentives for innovation and fair wages. Our economy will be neither entirely free-market nor state-run, but a collaborative enterprise that empowers citizens to earn a dignified living without nepotism.</li>
       </ul>
       <p>These reforms will close the gap between city and countryside. Mobile libraries and clinics will visit rural areas. Adult literacy programs will erase the last vestiges of illiteracy. We will honor teachers and healthcare workers as national heroes. This is not an empty promise: it is the foundation of a stable and prosperous nation.</p>
-
-      <h3>Empowering Our People: Women and Youth</h3>
+      
+      <h2>Empowering Our People: Women and Youth</h2>
       <p>Neo-Akkad’s future depends on unleashing the energy of women and youth. We demand nothing less than full equality before the law and opportunity for all:</p>
       <ul>
-        <li>Gender Equity: The new constitution will enshrine equal rights for women. We will repeal any law that tolerates gender discrimination. Women will serve on an equal footing in government, the military, and industry. Safety nets will protect mothers and families, and childcare support will enable mothers to work or study. We will launch campaigns to end violence against women, banning practices that violate human rights. Our daughters will grow up knowing they have the same hope as our sons.</li>
-        <li>Youth Engagement: We will establish a National Youth Council, giving a direct voice to young people in policymaking. Political parties and civic organizations must field young candidates. A mandatory national service program (civil, technical, or military) will instill discipline and unity among all Iraqi youth, building bridges across ethnic and sectarian lines. We will invest in sports, science, and arts programs to channel the idealism of youth. Under this plan, unemployment among young people will fall dramatically as industries grow and new skills are developed.</li>
-        <li>Entrepreneurship and Innovation: Recognizing the dynamism of our people, we will provide grants and tax incentives for startups in technology and green energy. Former refugees and migrants will be encouraged to return, bringing skills and capital. No young person will be forced to choose extremism to find purpose; instead, the state will be their partner in creativity and economic success.</li>
+        <li><strong>Gender Equity:</strong> The new constitution will enshrine equal rights for women. We will repeal any law that tolerates gender discrimination. Women will serve on an equal footing in government, the military, and industry. Safety nets will protect mothers and families, and childcare support will enable mothers to work or study. We will launch campaigns to end violence against women, banning practices that violate human rights. Our daughters will grow up knowing they have the same hope as our sons.</li>
+        <li><strong>Youth Engagement:</strong> We will establish a National Youth Council, giving a direct voice to young people in policymaking. Political parties and civic organizations must field young candidates. A mandatory national service program (civil, technical, or military) will instill discipline and unity among all Iraqi youth, building bridges across ethnic and sectarian lines. We will invest in sports, science, and arts programs to channel the idealism of youth. Under this plan, unemployment among young people will fall dramatically as industries grow and new skills are developed.</li>
+        <li><strong>Entrepreneurship and Innovation:</strong> Recognizing the dynamism of our people, we will provide grants and tax incentives for startups in technology and green energy. Former refugees and migrants will be encouraged to return, bringing skills and capital. No young person will be forced to choose extremism to find purpose; instead, the state will be their partner in creativity and economic success.</li>
       </ul>
       <p>By empowering women and youth, we tap into the greatest natural resource of Iraq: our people. Their hands will rebuild, their ideas will propel us forward, and their ideals will shape our national character.</p>
-
-      <h3>Upholding Justice and Sovereignty</h3>
+      
+      <h2>Upholding Justice and Sovereignty</h2>
       <p>Our nation will be governed by laws, not by patronage. A just society begins with honest leadership:</p>
       <ul>
-        <li>Rule of Law: Establish an independent judiciary with judges selected by merit. Corruption will be a capital crime. All officials—big or small—will be subject to audit and prosecution if they betray the public trust. Government contracts and budgets will be public records. We will dismantle militias not under government control and integrate them into the official security forces, ensuring that force serves the state, not individuals.</li>
-        <li>Accountable Governance: We will create ombudsman offices and independent anti-corruption commissions with teeth. Public servants will face strict penalties for graft. A streamlined bureaucracy and digital government services will reduce personal contact with officials, limiting opportunities for bribery. Whistleblowers will be protected and rewarded. Under the Akkadian Enlightenment, honesty is the highest civic virtue.</li>
-        <li>National Sovereignty: We will renounce all foreign military commands on Iraqi soil. The withdrawal of foreign troops will begin immediately. Our foreign policy will be one of non-alignment and mutual respect; we will not allow any external power to dictate our affairs. We will negotiate from strength to cancel unfair debt, revise unfavorable oil contracts, and reclaim control of our airspace and resources. Borders will be controlled by Iraqi forces alone. The era of puppet politics ends now.</li>
-        <li>Reviving Iraqi Institutions: We will restore the dignity of the Iraqi flag and anthem. Local governments will be strengthened so that cities and villages can govern effectively under a transparent national constitution. Elections will be held on a regular schedule with genuine competition; political parties must disclose foreign funding to ensure loyalty lies with Iraq alone.</li>
+        <li><strong>Rule of Law:</strong> Establish an independent judiciary with judges selected by merit. Corruption will be a capital crime. All officials—big or small—will be subject to audit and prosecution if they betray the public trust. Government contracts and budgets will be public records. We will dismantle militias not under government control and integrate them into the official security forces, ensuring that force serves the state, not individuals.</li>
+        <li><strong>Accountable Governance:</strong> We will create ombudsman offices and independent anti-corruption commissions with teeth. Public servants will face strict penalties for graft. A streamlined bureaucracy and digital government services will reduce personal contact with officials, limiting opportunities for bribery. Whistleblowers will be protected and rewarded. Under the Akkadian Enlightenment, honesty is the highest civic virtue.</li>
+        <li><strong>National Sovereignty:</strong> We will renounce all foreign military commands on Iraqi soil. The withdrawal of foreign troops will begin immediately. Our foreign policy will be one of non-alignment and mutual respect; we will not allow any external power to dictate our affairs. We will negotiate from strength to cancel unfair debt, revise unfavorable oil contracts, and reclaim control of our airspace and resources. Borders will be controlled by Iraqi forces alone. The era of puppet politics ends now.</li>
+        <li><strong>Reviving Iraqi Institutions:</strong> We will restore the dignity of the Iraqi flag and anthem. Local governments will be strengthened so that cities and villages can govern effectively under a transparent national constitution. Elections will be held on a regular schedule with genuine competition; political parties must disclose foreign funding to ensure loyalty lies with Iraq alone.</li>
       </ul>
       <p>Through these steps, we rebuild the contract between citizen and state. The rulers will serve the people, not vice versa. Our destiny will no longer be written by outsiders or unscrupulous elites, but by the voice of the Iraqi people through fair laws and institutions.</p>
-
-      <h3>Cultural Renaissance and Moral Revival</h3>
+      
+      <h2>Cultural Renaissance and Moral Revival</h2>
       <p>We call for a return to the values that once made Mesopotamia the cradle of civilization. Our culture will be our fortress:</p>
       <ul>
-        <li>Preserving Heritage: We will teach our history—from Sumerian cuneiform to Babylonian law to modern poets—in every classroom. Museums and cultural centers will be built in every province to honor our diverse ethnic heritage. Local dialects and crafts will be promoted on public media and festivals. We will revive Arabic, Kurdish, Syriac, and other languages with pride, fostering mutual respect.</li>
-        <li>Arts and Media Freedom: Writers, artists, and journalists will be free to express themselves, limited only by the commitment to truth and public decency. The state will sponsor literary awards, film projects, and educational media that explore our identity. A new cultural flowering—films, music, poetry, and theatre—will inspire national pride.</li>
-        <li>Moral and Ethical Renewal: We challenge every Iraqi to embrace responsibility, honesty, and community service. The moral corruption of the past decades has been our downfall. We will institute ethics courses in schools and public awareness campaigns against bribery and apathy. Religious leaders will be encouraged to preach unity and compassion rather than division, but they will have no hand in government policy.</li>
-        <li>Community and Family: Civic life will be strengthened through new neighborhood councils, volunteer groups, and sports leagues. Young men and women will learn the value of citizenship through local service projects: cleaning streets, tending community gardens, and helping the elderly. These acts will weave together our social fabric.</li>
+        <li><strong>Preserving Heritage:</strong> We will teach our history—from Sumerian cuneiform to Babylonian law to modern poets—in every classroom. Museums and cultural centers will be built in every province to honor our diverse ethnic heritage. Local dialects and crafts will be promoted on public media and festivals. We will revive Arabic, Kurdish, Syriac, and other languages with pride, fostering mutual respect.</li>
+        <li><strong>Arts and Media Freedom:</strong> Writers, artists, and journalists will be free to express themselves, limited only by the commitment to truth and public decency. The state will sponsor literary awards, film projects, and educational media that explore our identity. A new cultural flowering—films, music, poetry, and theatre—will inspire national pride.</li>
+        <li><strong>Moral and Ethical Renewal:</strong> We challenge every Iraqi to embrace responsibility, honesty, and community service. The moral corruption of the past decades has been our downfall. We will institute ethics courses in schools and public awareness campaigns against bribery and apathy. Religious leaders will be encouraged to preach unity and compassion rather than division, but they will have no hand in government policy.</li>
+        <li><strong>Community and Family:</strong> Civic life will be strengthened through new neighborhood councils, volunteer groups, and sports leagues. Young men and women will learn the value of citizenship through local service projects: cleaning streets, tending community gardens, and helping the elderly. These acts will weave together our social fabric.</li>
       </ul>
       <p>This cultural renaissance is more than nostalgia; it is the bedrock of the new moral order. We will not allow apathy or vice to reclaim what our ancestors fought to create. Our national identity will be defined by courage, learning, hospitality, and honor.</p>
-
-      <h3>Conclusion: The Dawn of Neo-Akkad</h3>
+      
+      <h2>Conclusion: The Dawn of Neo-Akkad</h2>
       <p>The time has come to cast off the chains of despair. We stand at a historic crossroads. If we continue to submit to injustice, we condemn our children to the same ruin. But if we unite behind these ideals—the pillars of the Akkadian Enlightenment—we will ignite a transformation unparalleled in our history.</p>
       <p>This manifesto is our pledge: to rebuild our land, our society, and our spirit. To every Iraqi man and woman, young and old, we say: awaken with us. Raise your voices in deeds as well as words. Demand accountability from rulers, insist on your rights, and contribute to the common good. Plant a tree, teach a neighbor to read, stay true to honesty. In every action, carry the flame of Neo-Akkad’s future.</p>
       <p>Let there be a cultural renaissance, a return to virtue, and a new moral order that honors each person’s dignity and our collective destiny. Our enemies are poverty, ignorance, and foreign dominion; together, we will defeat them.</p>
@@ -325,67 +321,63 @@
       <p>This is our manifesto. This is our solemn vow.</p>
     </section>
 
+    <section id="news">
+      <h1>News</h1>
+      <div class="news-container">
+        <div class="news-card">
+          <h3>Neo-Akkad Movement Gains Momentum</h3>
+          <p>Thousands rally in Baghdad demanding reform and cultural renaissance.</p>
+        </div>
+        <div class="news-card">
+          <h3>Language Revival Project Launches</h3>
+          <p>Akkadian classes begin with Syriac script teaching in multiple provinces.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="account">
-      <h1>Create an Account</h1>
-      <form>
-        <input type="text" placeholder="Username" required />
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
+      <h1>Create Account</h1>
+      <form id="account-form">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
         <button type="submit">Register</button>
       </form>
     </section>
 
     <section id="contact">
       <h1>Contact Us</h1>
-      <p>Use this form or email <strong>nationalreformorganization@gmail.com</strong></p>
-      <form>
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea rows="5" placeholder="Your Message" required></textarea>
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
         <button type="submit">Send</button>
       </form>
     </section>
   </div>
 
-  <div class="audio-player">
-    <audio controls autoplay loop>
-      <source src="carolusrex.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
-  </div>
+  <audio id="bg-music" class="audio-player" controls loop>
+    <source src="revolution.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
-    const links = document.querySelectorAll('.nav-links a');
+    const navLinks = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('section');
 
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
         e.preventDefault();
-        links.forEach(l => l.classList.remove('active'));
+        // Remove active class on all links and sections
+        navLinks.forEach(l => l.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
+        // Add active class on clicked link and corresponding section
         link.classList.add('active');
-
         const targetId = link.getAttribute('href').substring(1);
-        sections.forEach(section => {
-          if (section.id === targetId) {
-            section.style.display = 'block';
-          } else {
-            section.style.display = 'none';
-          }
-        });
+        document.getElementById(targetId).classList.add('active');
+        // Scroll main content top on new section
+        document.querySelector('.main-content').scrollTop = 0;
       });
-    });
-
-    // Show the home section by default on page load
-    window.addEventListener('DOMContentLoaded', () => {
-      sections.forEach(section => {
-        if (section.id === 'home') {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-      links.forEach(l => l.classList.remove('active'));
-      document.querySelector('.nav-links a[href="#home"]').classList.add('active');
     });
   </script>
 </body>
