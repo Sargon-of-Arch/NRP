@@ -144,6 +144,8 @@
       border-radius: 5px;
       width: 300px;
       z-index: 1000;
+      cursor: move;
+      user-select: none;
     }
 
     .audio-controls {
@@ -220,10 +222,18 @@
     .submenu {
       margin-left: 20px;
       display: none;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     .submenu.show {
       display: block;
+    }
+
+    .submenu a {
+      display: block;
+      margin: 8px 0;
+      padding: 6px 12px;
     }
 
     .has-submenu {
@@ -424,7 +434,7 @@
     </section>
   </div>
 
-  <div class="audio-player">
+  <div class="audio-player" id="audio-player">
     <div class="audio-controls">
       <audio id="audio" controls>
         <source src="carolusrex.mp3" type="audio/mpeg" />
@@ -535,6 +545,42 @@
     languageLink.addEventListener('click', (e) => {
       e.preventDefault();
       submenu.classList.toggle('show');
+    });
+
+    // Make audio player draggable
+    const player = document.getElementById('audio-player');
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    player.addEventListener('mousedown', (e) => {
+      if (e.target === player || e.target.classList.contains('now-playing')) {
+        isDragging = true;
+        offsetX = e.clientX - player.getBoundingClientRect().left;
+        offsetY = e.clientY - player.getBoundingClientRect().top;
+        player.style.cursor = 'grabbing';
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      
+      const x = e.clientX - offsetX;
+      const y = e.clientY - offsetY;
+      
+      player.style.left = `${x}px`;
+      player.style.top = `${y}px`;
+      player.style.right = 'auto';
+      player.style.bottom = 'auto';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      player.style.cursor = 'move';
+    });
+
+    // Prevent text selection while dragging
+    player.addEventListener('selectstart', (e) => {
+      if (isDragging) e.preventDefault();
     });
   </script>
 </body>
