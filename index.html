@@ -375,7 +375,7 @@
       .main-content {
         margin-left: 0;
         padding: 1em;
-        padding-top: 60px;
+        padding-top: 80px; /* Increased to prevent overlap with menu toggle */
       }
 
       .menu-toggle {
@@ -390,6 +390,7 @@
       h1 {
         font-size: 1.8rem;
         margin-bottom: 0.8em;
+        margin-top: 20px; /* Added space for the menu toggle */
       }
 
       h2 {
@@ -406,13 +407,16 @@
         grid-template-columns: 1fr;
       }
 
-      /* Audio player mobile styles */
+      /* Audio player mobile styles - redesigned as sidebar */
       .audio-player {
-        width: 100%;
+        width: 90%;
+        height: auto;
         max-width: 100%;
-        bottom: 0;
-        right: 0;
-        border-radius: 0;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 5px;
+        transform: translateX(0);
+        transition: transform 0.3s ease;
       }
 
       .audio-player.minimized {
@@ -421,6 +425,10 @@
         bottom: 10px;
         right: 10px;
         border-radius: 50%;
+      }
+
+      .audio-player.hidden {
+        transform: translateX(calc(100% + 20px));
       }
     }
 
@@ -431,7 +439,7 @@
 
       .main-content {
         padding: 0.8em;
-        padding-top: 60px;
+        padding-top: 80px;
       }
 
       h1 {
@@ -449,6 +457,11 @@
 
       input, textarea {
         width: 100%;
+      }
+
+      .audio-player {
+        width: calc(100% - 20px);
+        right: 10px;
       }
     }
   </style>
@@ -592,17 +605,24 @@
 
     links.forEach(link => {
       link.addEventListener('click', (e) => {
-        e.preventDefault();
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-
-        const targetId = link.getAttribute('href').substring(1);
-        sections.forEach(section => {
-          section.classList.toggle('active', section.id === targetId);
-        });
+        // Don't prevent default for submenu parent
+        if (!link.classList.contains('has-submenu') || window.innerWidth > 768) {
+          e.preventDefault();
+        }
         
-        // Scroll to top of the section
-        document.getElementById(targetId).scrollTo(0, 0);
+        // Only update active states if not a submenu parent on mobile
+        if (window.innerWidth > 768 || !link.classList.contains('has-submenu')) {
+          links.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+
+          const targetId = link.getAttribute('href').substring(1);
+          sections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+          });
+          
+          // Scroll to top of the section
+          document.getElementById(targetId).scrollTo(0, 0);
+        }
       });
     });
 
@@ -636,7 +656,19 @@
       e.stopPropagation();
       isMinimized = !isMinimized;
       player.classList.toggle('minimized', isMinimized);
+      
+      // On mobile, clicking the minimized player should restore it
+      if (window.innerWidth <= 768 && isMinimized) {
+        player.addEventListener('click', restorePlayerOnMobile, { once: true });
+      }
     });
+
+    function restorePlayerOnMobile(e) {
+      if (e.target === player && isMinimized) {
+        isMinimized = false;
+        player.classList.remove('minimized');
+      }
+    }
 
     // Toggle playlist when clicking now playing
     nowPlaying.addEventListener('click', () => {
@@ -670,8 +702,9 @@
     const submenu = document.getElementById('language-submenu');
 
     languageLink.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768 || e.target === languageLink) {
+      if (window.innerWidth <= 768) {
         e.preventDefault();
+        e.stopPropagation(); // Prevent the menu from closing
         languageLink.classList.toggle('open');
         submenu.classList.toggle('show');
       }
@@ -681,19 +714,22 @@
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
 
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       menuToggle.classList.toggle('active');
       sidebar.classList.toggle('active');
     });
 
     // Close menu when clicking on a link (for mobile)
     document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          menuToggle.classList.remove('active');
-          sidebar.classList.remove('active');
-        }
-      });
+      if (!link.classList.contains('has-submenu')) {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            menuToggle.classList.remove('active');
+            sidebar.classList.remove('active');
+          }
+        });
+      }
     });
 
     // Make audio player draggable on desktop
@@ -734,8 +770,8 @@
         // Reset player position on mobile
         player.style.left = '';
         player.style.top = '';
-        player.style.right = '0';
-        player.style.bottom = '0';
+        player.style.right = '10px';
+        player.style.bottom = '10px';
       } else {
         const rect = player.getBoundingClientRect();
         if (rect.right > window.innerWidth) {
@@ -749,8 +785,8 @@
 
     // Initialize player position on mobile
     if (window.innerWidth <= 768) {
-      player.style.right = '0';
-      player.style.bottom = '0';
+      player.style.right = '10px';
+      player.style.bottom = '10px';
     }
   </script>
 </body>
