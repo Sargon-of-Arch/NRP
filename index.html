@@ -216,6 +216,26 @@
       user-select: text;
     }
 
+    /* Submenu styles */
+    .submenu {
+      margin-left: 20px;
+      display: none;
+    }
+
+    .submenu.show {
+      display: block;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .has-submenu::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 5px;
+    }
+
     @media (max-width: 768px) {
       .sidebar {
         position: static;
@@ -234,6 +254,9 @@
       .audio-player {
         width: 250px;
       }
+      .submenu {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -245,9 +268,11 @@
     </div>
     <div class="nav-links">
       <a href="#home" class="active">Home</a>
-      <a href="#language">Language Revival Project</a>
-      <a href="#dictionary">Dictionary</a>
-      <a href="#grammar">Grammar</a>
+      <a href="#language" class="has-submenu">Language Revival Project</a>
+      <div class="submenu">
+        <a href="#dictionary">Dictionary</a>
+        <a href="#grammar">Grammar</a>
+      </div>
       <a href="#goals">Our Goals</a>
       <a href="#news">News</a>
       <a href="#manifesto">Manifesto</a>
@@ -501,6 +526,15 @@
       if (nextItem) {
         nextItem.click();
       }
+    });
+
+    // Toggle submenu visibility
+    const languageLink = document.querySelector('a[href="#language"]');
+    const submenu = document.querySelector('.submenu');
+
+    languageLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      submenu.classList.toggle('show');
     });
   </script>
 </body>
