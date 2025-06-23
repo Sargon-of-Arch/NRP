@@ -146,6 +146,12 @@
       z-index: 1000;
       cursor: move;
       user-select: none;
+      resize: both;
+      overflow: auto;
+      min-width: 250px;
+      min-height: 100px;
+      max-width: 90vw;
+      max-height: 80vh;
     }
 
     .audio-controls {
@@ -158,6 +164,7 @@
       max-height: 200px;
       overflow-y: auto;
       margin-top: 10px;
+      display: none;
     }
 
     .playlist-item {
@@ -180,6 +187,40 @@
       font-size: 0.9rem;
       color: var(--accent-gold);
       text-align: center;
+      cursor: pointer;
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .player-title {
+      font-weight: bold;
+      color: var(--accent-gold);
+    }
+
+    .player-controls {
+      display: flex;
+      gap: 5px;
+    }
+
+    .player-btn {
+      background: none;
+      border: none;
+      color: var(--accent-gold);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .player-btn:hover {
+      color: var(--accent-gold-hover);
+    }
+
+    audio {
+      width: 100%;
     }
 
     form {
@@ -262,10 +303,20 @@
         gap: 1em;
       }
       .audio-player {
-        width: 250px;
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+        bottom: 10px;
+        resize: none;
       }
       .submenu {
         display: none !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      audio {
+        min-width: 100%;
       }
     }
   </style>
@@ -435,6 +486,13 @@
   </div>
 
   <div class="audio-player" id="audio-player">
+    <div class="player-header">
+      <div class="player-title">Music Player</div>
+      <div class="player-controls">
+        <button class="player-btn" id="toggle-playlist">☰</button>
+        <button class="player-btn" id="minimize-player">−</button>
+      </div>
+    </div>
     <div class="audio-controls">
       <audio id="audio" controls>
         <source src="carolusrex.mp3" type="audio/mpeg" />
@@ -503,6 +561,40 @@
     const audio = document.getElementById('audio');
     const playlistItems = document.querySelectorAll('.playlist-item');
     const nowPlaying = document.getElementById('now-playing');
+    const playlist = document.getElementById('playlist');
+    const togglePlaylistBtn = document.getElementById('toggle-playlist');
+    const minimizePlayerBtn = document.getElementById('minimize-player');
+    const player = document.getElementById('audio-player');
+    let isDragging = false;
+    let offsetX, offsetY;
+    let isMinimized = false;
+
+    // Toggle playlist visibility
+    togglePlaylistBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playlist.style.display = playlist.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Minimize/restore player
+    minimizePlayerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isMinimized = !isMinimized;
+      if (isMinimized) {
+        player.style.height = '60px';
+        player.style.overflow = 'hidden';
+        minimizePlayerBtn.textContent = '+';
+        playlist.style.display = 'none';
+      } else {
+        player.style.height = '';
+        player.style.overflow = 'auto';
+        minimizePlayerBtn.textContent = '−';
+      }
+    });
+
+    // Toggle playlist when clicking now playing
+    nowPlaying.addEventListener('click', () => {
+      playlist.style.display = playlist.style.display === 'none' ? 'block' : 'none';
+    });
 
     playlistItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -548,12 +640,9 @@
     });
 
     // Make audio player draggable
-    const player = document.getElementById('audio-player');
-    let isDragging = false;
-    let offsetX, offsetY;
-
     player.addEventListener('mousedown', (e) => {
-      if (e.target === player || e.target.classList.contains('now-playing')) {
+      if (e.target === player || e.target.classList.contains('now-playing') || 
+          e.target.classList.contains('player-header') || e.target.classList.contains('player-title')) {
         isDragging = true;
         offsetX = e.clientX - player.getBoundingClientRect().left;
         offsetY = e.clientY - player.getBoundingClientRect().top;
@@ -581,6 +670,17 @@
     // Prevent text selection while dragging
     player.addEventListener('selectstart', (e) => {
       if (isDragging) e.preventDefault();
+    });
+
+    // Handle window resize to keep player visible
+    window.addEventListener('resize', () => {
+      const rect = player.getBoundingClientRect();
+      if (rect.right > window.innerWidth) {
+        player.style.left = `${window.innerWidth - rect.width - 20}px`;
+      }
+      if (rect.bottom > window.innerHeight) {
+        player.style.top = `${window.innerHeight - rect.height - 20}px`;
+      }
     });
   </script>
 </body>
