@@ -86,7 +86,7 @@
       padding: 2em;
       flex: 1;
       min-width: 300px;
-      max-width: 900px;
+      max-width: 1200px; /* Increased max-width for better text spacing */
     }
 
     section {
@@ -115,6 +115,7 @@
       font-size: 1rem;
       line-height: 1.6;
       margin-bottom: 1em;
+      max-width: 900px; /* Prevent text from stretching too wide */
     }
 
     ul {
@@ -141,6 +142,42 @@
       padding: 10px;
       border: 1px solid var(--accent-gold);
       border-radius: 5px;
+      width: 300px;
+      z-index: 1000;
+    }
+
+    .audio-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .audio-playlist {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+
+    .playlist-item {
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .playlist-item:hover {
+      background-color: #333;
+    }
+
+    .playlist-item.active {
+      color: var(--accent-gold-hover);
+      font-weight: bold;
+    }
+
+    .now-playing {
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: var(--accent-gold);
+      text-align: center;
     }
 
     form {
@@ -194,6 +231,9 @@
         flex-direction: row;
         gap: 1em;
       }
+      .audio-player {
+        width: 250px;
+      }
     }
   </style>
 </head>
@@ -206,6 +246,8 @@
     <div class="nav-links">
       <a href="#home" class="active">Home</a>
       <a href="#language">Language Revival Project</a>
+      <a href="#dictionary">Dictionary</a>
+      <a href="#grammar">Grammar</a>
       <a href="#goals">Our Goals</a>
       <a href="#news">News</a>
       <a href="#manifesto">Manifesto</a>
@@ -223,6 +265,16 @@
     <section id="language">
       <h1>Language Revival Project</h1>
       <p>Bringing back Akkadian using Syriac script. Language is resistance.</p>
+    </section>
+
+    <section id="dictionary">
+      <h1>Dictionary</h1>
+      <p>Our comprehensive Akkadian dictionary project. (Content to be added)</p>
+    </section>
+
+    <section id="grammar">
+      <h1>Grammar</h1>
+      <p>Learn the grammatical structure of revived Akkadian. (Content to be added)</p>
     </section>
 
     <section id="goals">
@@ -263,14 +315,14 @@
         <li><strong>Individual Liberty and Merit:</strong> We reaffirm the classical liberal ideal that every person has intrinsic worth and unalienable rights. Our economy shall be open and competitive, rewarding hard work and innovation rather than birth or bribes. Education and opportunity will be extended to all, not just the connected. We commit to freedom of speech, conscience, and enterprise within a framework of responsibility and national duty.</li>
         <li><strong>Secular and Strong Governance:</strong> We demand the separation of mosque and state, ending the sectarian exploitation of politics. Religion is a private faith, not a public master. At the same time, we recognize that strong leadership is needed to guide our people through reform. The state will be empowered by a secular government answerable to the people and the rule of law. This is an authoritarianism of order, not of tyranny: power checked by wisdom and wielded for the public good, not personal gain.</li>
         <li><strong>Cultural Heritage and Moral Conservatism:</strong> We cherish our ancient traditions, social values, and historic identity as the glue of our nation. Family, community, and respect for elders are not obsolete relics but foundations of a healthy society. Our courts will uphold customary law where it does not conflict with justice. We will preserve local customs and languages as living traditions. But we reject any custom that degrades human dignity or obstructs progress. In this way, we marry moral conservatism with human dignity and national progress.</li>
-        <li><strong>Guided Monarchy of National Unity:</strong> We reestablish a constitutional monarchy as a unifying symbol above party or sect. The monarch, chosen from the historic line of Sumerian-Akkadian heritage, will embody the continuity and stability of our civilization. This crown is guided by advisors, parliament, and national interest; it is neither absolute nor hollow. It stands as a secular institution that channels the collective will of the people and reinforces the law. In the monarch’s guidance, the rival factions of Iraq find common purpose under the rule of law.</li>
+        <li><strong>Guided Monarchy of National Unity:</strong> We reestablish a constitutional monarchy as a unifying symbol above party or sect. The monarch, chosen from the historic line of Sumerian-Akkadian heritage, will embody the continuity and stability of our civilization. This crown is guided by advisors, parliament, and national interest; it is neither absolute nor hollow. It stands as a secular institution that channels the collective will of the people and reinforces the law. In the monarch's guidance, the rival factions of Iraq find common purpose under the rule of law.</li>
       </ul>
       <p>The Akkadian Enlightenment ideology aims to reconcile liberty with order, progress with tradition, and independence with unity. It draws strength from the deeds of Gilgamesh and Hammurabi while pledging to serve the modern citizen. It places reason and national interest above sectarian strife or foreign dictates.</p>
 
       <h3>Rebuilding Our Land: Infrastructure and Environment</h3>
       <p>We present a bold vision for reconstruction and sustainability. Our urban centers and villages shall be transformed with modern infrastructure and green renewal. Concretely, we will:</p>
       <ul>
-        <li>Rebuild Transportation and Housing: Repair and pave the nation’s roads, connect villages with bridges and highways, and build public housing to replace shanties and war ruins. Bumps, trenches, and ponds in our streets will become mere memories.</li>
+        <li>Rebuild Transportation and Housing: Repair and pave the nation's roads, connect villages with bridges and highways, and build public housing to replace shanties and war ruins. Bumps, trenches, and ponds in our streets will become mere memories.</li>
         <li>Clean Water and Sanitation: Construct dams and reservoirs to capture rain and river water, lay new pipelines, and build wastewater treatment plants. Every citizen will have access to clean, potable water and functioning sewage systems in their community.</li>
         <li>Reliable Electricity and Energy: Modernize the power grid from north to south. We will invest in a mix of energy sources—solar arrays across the deserts, wind farms on our plains, and upgraded power stations—to ensure affordable 24-hour electricity. Rolling blackouts will be eliminated.</li>
         <li>Environmental Stewardship and Greening: Launch a national greening initiative. We will plant millions of trees along our streets and in the countryside, cultivate parks in our cities, and invest in sustainable agriculture. Desertification will be reversed through modern farming techniques and reforestation. Clean air and a greener Iraq will become our legacy.</li>
@@ -288,7 +340,7 @@
       <p>These reforms will close the gap between city and countryside. Mobile libraries and clinics will visit rural areas. Adult literacy programs will erase the last vestiges of illiteracy. We will honor teachers and healthcare workers as national heroes. This is not an empty promise: it is the foundation of a stable and prosperous nation.</p>
 
       <h3>Empowering Our People: Women and Youth</h3>
-      <p>Neo-Akkad’s future depends on unleashing the energy of women and youth. We demand nothing less than full equality before the law and opportunity for all:</p>
+      <p>Neo-Akkad's future depends on unleashing the energy of women and youth. We demand nothing less than full equality before the law and opportunity for all:</p>
       <ul>
         <li>Gender Equity: The new constitution will enshrine equal rights for women. We will repeal any law that tolerates gender discrimination. Women will serve on an equal footing in government, the military, and industry. Safety nets will protect mothers and families, and childcare support will enable mothers to work or study. We will launch campaigns to end violence against women, banning practices that violate human rights. Our daughters will grow up knowing they have the same hope as our sons.</li>
         <li>Youth Engagement: We will establish a National Youth Council, giving a direct voice to young people in policymaking. Political parties and civic organizations must field young candidates. A mandatory national service program (civil, technical, or military) will instill discipline and unity among all Iraqi youth, building bridges across ethnic and sectarian lines. We will invest in sports, science, and arts programs to channel the idealism of youth. Under this plan, unemployment among young people will fall dramatically as industries grow and new skills are developed.</li>
@@ -318,8 +370,8 @@
 
       <h3>Conclusion: The Dawn of Neo-Akkad</h3>
       <p>The time has come to cast off the chains of despair. We stand at a historic crossroads. If we continue to submit to injustice, we condemn our children to the same ruin. But if we unite behind these ideals—the pillars of the Akkadian Enlightenment—we will ignite a transformation unparalleled in our history.</p>
-      <p>This manifesto is our pledge: to rebuild our land, our society, and our spirit. To every Iraqi man and woman, young and old, we say: awaken with us. Raise your voices in deeds as well as words. Demand accountability from rulers, insist on your rights, and contribute to the common good. Plant a tree, teach a neighbor to read, stay true to honesty. In every action, carry the flame of Neo-Akkad’s future.</p>
-      <p>Let there be a cultural renaissance, a return to virtue, and a new moral order that honors each person’s dignity and our collective destiny. Our enemies are poverty, ignorance, and foreign dominion; together, we will defeat them.</p>
+      <p>This manifesto is our pledge: to rebuild our land, our society, and our spirit. To every Iraqi man and woman, young and old, we say: awaken with us. Raise your voices in deeds as well as words. Demand accountability from rulers, insist on your rights, and contribute to the common good. Plant a tree, teach a neighbor to read, stay true to honesty. In every action, carry the flame of Neo-Akkad's future.</p>
+      <p>Let there be a cultural renaissance, a return to virtue, and a new moral order that honors each person's dignity and our collective destiny. Our enemies are poverty, ignorance, and foreign dominion; together, we will defeat them.</p>
       <p>We, the National Reform Organization of Neo-Akkad, call on all citizens: join us in this sacred mission of rebirth. For the first time in a generation, hope is tangible. Our ancestors would weep with pride. The crown of Neo-Akkad rises, not for one man, but for all of us—guided by wisdom, nourished by justice, and dedicated to liberty.</p>
       <p>Together, we shall rebuild our nation. From the ruins of the past, we will forge the foundation of the future. In the light of the Akkadian Enlightenment, Iraq will stand tall, sovereign and unified, once again a shining star of progress.</p>
       <p>This is our manifesto. This is our solemn vow.</p>
@@ -348,10 +400,34 @@
   </div>
 
   <div class="audio-player">
-    <audio controls autoplay loop>
-      <source src="carolusrex.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
+    <div class="audio-controls">
+      <audio id="audio" controls>
+        <source src="carolusrex.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <div class="now-playing" id="now-playing">Now Playing: Carolus Rex</div>
+    </div>
+    <div class="audio-playlist" id="playlist">
+      <div class="playlist-item" data-src="carolusrex.mp3">Sabaton - Carolus Rex</div>
+      <div class="playlist-item" data-src="laststand.mp3">Sabaton - Last Stand</div>
+      <div class="playlist-item" data-src="figure09.mp3">Linkin Park - Figure.09</div>
+      <div class="playlist-item" data-src="dontwannabeme.mp3">Type O Negative - I Don't Wanna Be Me</div>
+      <div class="playlist-item" data-src="wolfmoon.mp3">Type O Negative - Wolf Moon</div>
+      <div class="playlist-item" data-src="cherrywaves.mp3">Deftones - Cherry Waves</div>
+      <div class="playlist-item" data-src="bequiet.mp3">Deftones - Be Quiet and Drive</div>
+      <div class="playlist-item" data-src="theone.mp3">Limp Bizkit - The One</div>
+      <div class="playlist-item" data-src="mygeneration.mp3">Limp Bizkit - My Generation</div>
+      <div class="playlist-item" data-src="higher.mp3">Creed - Higher</div>
+      <div class="playlist-item" data-src="onelastbreath.mp3">Creed - One Last Breath</div>
+      <div class="playlist-item" data-src="takingoverme.mp3">Evanescence - Taking Over Me</div>
+      <div class="playlist-item" data-src="mylastbreath.mp3">Evanescence - My Last Breath</div>
+      <div class="playlist-item" data-src="numb.mp3">Linkin Park - Numb</div>
+      <div class="playlist-item" data-src="crawling.mp3">Linkin Park - Crawling</div>
+      <div class="playlist-item" data-src="lyingfromyou.mp3">Linkin Park - Lying From You</div>
+      <div class="playlist-item" data-src="rosenrot.mp3">Rammstein - Rosenrot</div>
+      <div class="playlist-item" data-src="hateeverything.mp3">Three Days Grace - I Hate Everything About You</div>
+      <div class="playlist-item" data-src="timeofdying.mp3">Three Days Grace - Time of Dying</div>
+    </div>
   </div>
 
   <script>
@@ -386,6 +462,45 @@
       });
       links.forEach(l => l.classList.remove('active'));
       document.querySelector('.nav-links a[href="#home"]').classList.add('active');
+    });
+
+    // Enhanced audio player functionality
+    const audio = document.getElementById('audio');
+    const playlistItems = document.querySelectorAll('.playlist-item');
+    const nowPlaying = document.getElementById('now-playing');
+
+    playlistItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Remove active class from all items
+        playlistItems.forEach(i => i.classList.remove('active'));
+        // Add active class to clicked item
+        item.classList.add('active');
+        
+        // Update audio source
+        const songSrc = item.getAttribute('data-src');
+        audio.src = songSrc;
+        
+        // Update now playing text
+        nowPlaying.textContent = `Now Playing: ${item.textContent}`;
+        
+        // Play the audio
+        audio.play();
+      });
+    });
+
+    // Auto-play next song when current ends
+    audio.addEventListener('ended', () => {
+      const currentItem = document.querySelector('.playlist-item.active');
+      let nextItem = currentItem.nextElementSibling;
+      
+      // If at end of playlist, loop back to start
+      if (!nextItem) {
+        nextItem = document.querySelector('.playlist-item:first-child');
+      }
+      
+      if (nextItem) {
+        nextItem.click();
+      }
     });
   </script>
 </body>
