@@ -218,6 +218,9 @@
       text-align: center;
       cursor: pointer;
       padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .player-header {
@@ -358,6 +361,71 @@
       transform: rotate(-45deg) translate(7px, -6px);
     }
 
+    /* Dictionary table styles */
+    .dictionary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+    }
+
+    .dictionary-table th, .dictionary-table td {
+      border: 1px solid #444;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .dictionary-table th {
+      background-color: #222;
+      color: var(--accent-gold);
+    }
+
+    .dictionary-table tr:nth-child(even) {
+      background-color: #1a1a1a;
+    }
+
+    .dictionary-table tr:hover {
+      background-color: #222;
+    }
+
+    /* Grammar content editor styles */
+    .editor-container {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 1em;
+      margin: 1em 0;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .editor-toolbar button {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+    }
+
+    .editor-content {
+      min-height: 200px;
+      border: 1px solid #333;
+      padding: 10px;
+      background: #0d0d0d;
+    }
+
+    /* Login form styles */
+    .auth-container {
+      display: flex;
+      gap: 2em;
+      flex-wrap: wrap;
+    }
+
+    .auth-form {
+      flex: 1;
+      min-width: 300px;
+    }
+
     /* Mobile-specific styles */
     @media (max-width: 768px) {
       .sidebar {
@@ -430,6 +498,12 @@
       .audio-player.hidden {
         transform: translateX(calc(100% + 20px));
       }
+
+      /* Responsive table */
+      .dictionary-table {
+        display: block;
+        overflow-x: auto;
+      }
     }
 
     @media (max-width: 480px) {
@@ -489,7 +563,7 @@
       <a href="#goals">Our Goals</a>
       <a href="#news">News</a>
       <a href="#manifesto">Manifesto</a>
-      <a href="#account">Create Account</a>
+      <a href="#account">Account</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -507,12 +581,40 @@
 
     <section id="dictionary">
       <h1>Dictionary</h1>
-      <p>Our comprehensive Akkadian dictionary project. (Content to be added)</p>
+      <div class="dictionary-controls">
+        <button id="add-word-btn" class="edit-btn">Add New Word</button>
+        <button id="save-dictionary-btn" class="edit-btn">Save Changes</button>
+      </div>
+      <table class="dictionary-table" id="dictionary-table">
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Meaning</th>
+            <th>Origin</th>
+            <th>IPA Spelling</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Words will be loaded here -->
+        </tbody>
+      </table>
     </section>
 
     <section id="grammar">
       <h1>Grammar</h1>
-      <p>Learn the grammatical structure of revived Akkadian. (Content to be added)</p>
+      <div class="editor-container" id="grammar-editor">
+        <div class="editor-toolbar">
+          <button class="edit-btn" data-command="bold">Bold</button>
+          <button class="edit-btn" data-command="italic">Italic</button>
+          <button class="edit-btn" data-command="insertImage">Add Image</button>
+          <button class="edit-btn" data-command="createLink">Add Link</button>
+          <button class="edit-btn" id="save-grammar-btn">Save</button>
+        </div>
+        <div class="editor-content" contenteditable="true">
+          <!-- Grammar content will be loaded here -->
+        </div>
+      </div>
     </section>
 
     <section id="goals">
@@ -538,22 +640,35 @@
     </section>
 
     <section id="account">
-      <h1>Create an Account</h1>
-      <form>
-        <input type="text" placeholder="Username" required />
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <button type="submit">Register</button>
-      </form>
+      <div class="auth-container">
+        <div class="auth-form">
+          <h1>Login</h1>
+          <form id="login-form">
+            <input type="text" id="login-username" placeholder="Username" required />
+            <input type="password" id="login-password" placeholder="Password" required />
+            <button type="submit">Login</button>
+          </form>
+        </div>
+        <div class="auth-form">
+          <h1>Create Account</h1>
+          <form id="register-form">
+            <input type="text" id="register-username" placeholder="Username" required />
+            <input type="email" id="register-email" placeholder="Email" required />
+            <input type="password" id="register-password" placeholder="Password" required />
+            <input type="password" id="register-confirm" placeholder="Confirm Password" required />
+            <button type="submit">Register</button>
+          </form>
+        </div>
+      </div>
     </section>
 
     <section id="contact">
       <h1>Contact Us</h1>
       <p>Use this form or email <strong>nationalreformorganization@gmail.com</strong></p>
-      <form>
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea rows="5" placeholder="Your Message" required></textarea>
+      <form id="contact-form">
+        <input type="text" id="contact-name" placeholder="Your Name" required />
+        <input type="email" id="contact-email" placeholder="Your Email" required />
+        <textarea rows="5" id="contact-message" placeholder="Your Message" required></textarea>
         <button type="submit">Send</button>
       </form>
     </section>
@@ -602,16 +717,40 @@
     // Navigation functionality
     const links = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('section');
+    const languageLink = document.getElementById('language-link');
+    const submenu = document.getElementById('language-submenu');
+
+    // Show submenu on hover for desktop
+    languageLink.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 768) {
+        submenu.classList.add('show');
+        languageLink.classList.add('open');
+      }
+    });
+
+    // Hide submenu when mouse leaves for desktop
+    document.querySelector('.nav-links').addEventListener('mouseleave', () => {
+      if (window.innerWidth > 768) {
+        submenu.classList.remove('show');
+        languageLink.classList.remove('open');
+      }
+    });
 
     links.forEach(link => {
       link.addEventListener('click', (e) => {
-        // Don't prevent default for submenu parent
-        if (!link.classList.contains('has-submenu') || window.innerWidth > 768) {
+        // Handle submenu toggle for mobile
+        if (link.classList.contains('has-submenu') && window.innerWidth <= 768) {
           e.preventDefault();
+          e.stopPropagation();
+          link.classList.toggle('open');
+          submenu.classList.toggle('show');
+          return;
         }
         
-        // Only update active states if not a submenu parent on mobile
-        if (window.innerWidth > 768 || !link.classList.contains('has-submenu')) {
+        // For all other links
+        if (!link.classList.contains('has-submenu')) {
+          e.preventDefault();
+          
           links.forEach(l => l.classList.remove('active'));
           link.classList.add('active');
 
@@ -622,6 +761,12 @@
           
           // Scroll to top of the section
           document.getElementById(targetId).scrollTo(0, 0);
+
+          // Close mobile menu if open
+          if (window.innerWidth <= 768) {
+            menuToggle.classList.remove('active');
+            sidebar.classList.remove('active');
+          }
         }
       });
     });
@@ -633,6 +778,10 @@
       });
       links.forEach(l => l.classList.remove('active'));
       document.querySelector('.nav-links a[href="#home"]').classList.add('active');
+      
+      // Initialize dictionary and grammar editor
+      loadDictionary();
+      loadGrammarContent();
     });
 
     // Enhanced audio player functionality
@@ -697,19 +846,6 @@
       if (nextItem) nextItem.click();
     });
 
-    // Improved submenu functionality for mobile and desktop
-    const languageLink = document.getElementById('language-link');
-    const submenu = document.getElementById('language-submenu');
-
-    languageLink.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        e.stopPropagation(); // Prevent the menu from closing
-        languageLink.classList.toggle('open');
-        submenu.classList.toggle('show');
-      }
-    });
-
     // Mobile menu toggle - now on the left
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
@@ -720,15 +856,13 @@
       sidebar.classList.toggle('active');
     });
 
-    // Close menu when clicking on a link (for mobile)
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      if (!link.classList.contains('has-submenu')) {
-        link.addEventListener('click', () => {
-          if (window.innerWidth <= 768) {
-            menuToggle.classList.remove('active');
-            sidebar.classList.remove('active');
-          }
-        });
+    // Close menu when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        sidebar.classList.remove('active');
       }
     });
 
@@ -788,6 +922,168 @@
       player.style.right = '10px';
       player.style.bottom = '10px';
     }
+
+    // Dictionary functionality
+    const dictionaryTable = document.getElementById('dictionary-table').getElementsByTagName('tbody')[0];
+    const addWordBtn = document.getElementById('add-word-btn');
+    const saveDictionaryBtn = document.getElementById('save-dictionary-btn');
+
+    function loadDictionary() {
+      // In a real app, this would load from a database
+      const words = JSON.parse(localStorage.getItem('dictionaryWords')) || [];
+      
+      dictionaryTable.innerHTML = '';
+      words.forEach((word, index) => {
+        addWordToTable(word, index);
+      });
+    }
+
+    function addWordToTable(word, index) {
+      const row = dictionaryTable.insertRow();
+      row.innerHTML = `
+        <td contenteditable="true">${word.word || ''}</td>
+        <td contenteditable="true">${word.meaning || ''}</td>
+        <td contenteditable="true">${word.origin || ''}</td>
+        <td contenteditable="true">${word.ipa || ''}</td>
+        <td>
+          <button class="edit-btn delete-word" data-index="${index}">Delete</button>
+        </td>
+      `;
+    }
+
+    addWordBtn.addEventListener('click', () => {
+      addWordToTable({}, dictionaryTable.rows.length);
+    });
+
+    saveDictionaryBtn.addEventListener('click', () => {
+      const words = [];
+      const rows = dictionaryTable.rows;
+      
+      for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].cells;
+        words.push({
+          word: cells[0].textContent,
+          meaning: cells[1].textContent,
+          origin: cells[2].textContent,
+          ipa: cells[3].textContent
+        });
+      }
+      
+      localStorage.setItem('dictionaryWords', JSON.stringify(words));
+      alert('Dictionary saved successfully!');
+    });
+
+    // Handle word deletion
+    dictionaryTable.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete-word')) {
+        const index = e.target.getAttribute('data-index');
+        dictionaryTable.deleteRow(index);
+      }
+    });
+
+    // Grammar editor functionality
+    const grammarEditor = document.querySelector('.editor-content');
+    const saveGrammarBtn = document.getElementById('save-grammar-btn');
+    const editBtns = document.querySelectorAll('.editor-toolbar button[data-command]');
+
+    function loadGrammarContent() {
+      // In a real app, this would load from a database
+      const content = localStorage.getItem('grammarContent') || '<p>Start editing your grammar lessons here...</p>';
+      grammarEditor.innerHTML = content;
+    }
+
+    saveGrammarBtn.addEventListener('click', () => {
+      localStorage.setItem('grammarContent', grammarEditor.innerHTML);
+      alert('Grammar content saved successfully!');
+    });
+
+    // Text formatting buttons
+    editBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const command = btn.getAttribute('data-command');
+        
+        if (command === 'insertImage') {
+          const url = prompt('Enter the image URL:');
+          if (url) {
+            document.execCommand('insertImage', false, url);
+          }
+        } else if (command === 'createLink') {
+          const url = prompt('Enter the link URL:');
+          if (url) {
+            document.execCommand('createLink', false, url);
+          }
+        } else {
+          document.execCommand(command, false, null);
+        }
+        
+        grammarEditor.focus();
+      });
+    });
+
+    // Authentication functionality
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      
+      // In a real app, this would validate against a database
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.username === username && u.password === password);
+      
+      if (user) {
+        alert('Login successful!');
+        // In a real app, you would set a session or token here
+      } else {
+        alert('Invalid username or password');
+      }
+    });
+
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('register-username').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const confirm = document.getElementById('register-confirm').value;
+      
+      if (password !== confirm) {
+        alert('Passwords do not match!');
+        return;
+      }
+      
+      // In a real app, this would save to a database
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      
+      if (users.some(u => u.username === username)) {
+        alert('Username already exists');
+        return;
+      }
+      
+      users.push({ username, email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Registration successful! You can now login.');
+      registerForm.reset();
+    });
+
+    // Contact form functionality
+    const contactForm = document.getElementById('contact-form');
+    
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const message = document.getElementById('contact-message').value;
+      
+      // In a real app, this would send to a server
+      const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+      contacts.push({ name, email, message, date: new Date().toISOString() });
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+      
+      alert('Thank you for your message! We will get back to you soon.');
+      contactForm.reset();
+    });
   </script>
 </body>
 </html>
