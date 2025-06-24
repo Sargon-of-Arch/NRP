@@ -1085,5 +1085,87 @@
       contactForm.reset();
     });
   </script>
+  <script>
+  console.log('Hello world');
+
+  // Paste ALL of this EXACTLY here:
+
+  const API_BASE = 'https://8fbc-78-176-186-185.ngrok-free.app';
+
+  const dictTableBody = document.querySelector('#dictionary-table tbody');
+
+  async function loadWords() {
+    try {
+      const response = await fetch(`${API_BASE}/words`);
+      if (!response.ok) throw new Error('Failed to load dictionary');
+      const words = await response.json();
+
+      dictTableBody.innerHTML = '';
+
+      words.forEach((word, index) => {
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+          <td>${word.word || ''}</td>
+          <td>${word.definition || ''}</td>
+          <td>${word.origin || ''}</td>
+          <td>${word.ipa || ''}</td>
+          <td>
+            <button onclick="deleteWord(${index})">Delete</button>
+          </td>
+        `;
+
+        dictTableBody.appendChild(tr);
+      });
+    } catch (err) {
+      alert('Error loading dictionary: ' + err.message);
+    }
+  }
+
+  async function deleteWord(index) {
+    if (!confirm('Are you sure you want to delete this word?')) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/words/${index}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete word');
+      await loadWords();
+    } catch (err) {
+      alert('Error deleting word: ' + err.message);
+    }
+  }
+
+  document.getElementById('add-word-btn').addEventListener('click', () => {
+    const word = prompt('Enter word:');
+    if (!word) return alert('Word is required');
+
+    const definition = prompt('Enter meaning/definition:');
+    if (!definition) return alert('Definition is required');
+
+    const origin = prompt('Enter origin:') || '';
+    const ipa = prompt('Enter IPA spelling:') || '';
+
+    addWord({ word, definition, origin, ipa });
+  });
+
+  async function addWord(newWord) {
+    try {
+      const res = await fetch(`${API_BASE}/words`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newWord),
+      });
+
+      if (!res.ok) throw new Error('Failed to add word');
+      await loadWords();
+    } catch (err) {
+      alert('Error adding word: ' + err.message);
+    }
+  }
+
+  document.getElementById('save-dictionary-btn').addEventListener('click', loadWords);
+
+  loadWords();
+
+</script>
 </body>
 </html>
