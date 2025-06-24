@@ -749,6 +749,10 @@
   </div>
 
   <script>
+    // API Configuration
+    const API_BASE = 'https://f807-78-176-186-185.ngrok-free.app';
+    let authToken = localStorage.getItem('authToken') || '';
+
     // Navigation functionality
     const links = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('section');
@@ -817,74 +821,79 @@
       // Initialize dictionary and grammar lessons
       loadDictionary();
       loadGrammarLessons();
+      
+      // Initialize audio player
+      initAudioPlayer();
     });
 
     // Enhanced audio player functionality
-    const audio = document.getElementById('audio');
-    const playlistItems = document.querySelectorAll('.playlist-item');
-    const nowPlaying = document.getElementById('now-playing');
-    const playlist = document.getElementById('playlist');
-    const togglePlaylistBtn = document.getElementById('toggle-playlist');
-    const minimizePlayerBtn = document.getElementById('minimize-player');
-    const player = document.getElementById('audio-player');
-    let isMinimized = false;
+    function initAudioPlayer() {
+      const audio = document.getElementById('audio');
+      const playlistItems = document.querySelectorAll('.playlist-item');
+      const nowPlaying = document.getElementById('now-playing');
+      const playlist = document.getElementById('playlist');
+      const togglePlaylistBtn = document.getElementById('toggle-playlist');
+      const minimizePlayerBtn = document.getElementById('minimize-player');
+      const player = document.getElementById('audio-player');
+      let isMinimized = false;
 
-    // Toggle playlist visibility
-    togglePlaylistBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      playlist.style.display = playlist.style.display === 'none' ? 'block' : 'none';
-    });
-
-    // Minimize/restore player
-    minimizePlayerBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      isMinimized = !isMinimized;
-      player.classList.toggle('minimized', isMinimized);
-      
-      // Add playing class when audio is playing
-      if (!audio.paused) {
-        player.classList.add('playing');
-      } else {
-        player.classList.remove('playing');
-      }
-    });
-
-    // Restore player when clicking minimized version
-    player.addEventListener('click', (e) => {
-      if (isMinimized && (e.target === player || e.target.classList.contains('playing'))) {
-        isMinimized = false;
-        player.classList.remove('minimized');
-        player.classList.remove('playing');
-      }
-    });
-
-    // Toggle playlist when clicking now playing
-    nowPlaying.addEventListener('click', () => {
-      if (!isMinimized) {
+      // Toggle playlist visibility
+      togglePlaylistBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         playlist.style.display = playlist.style.display === 'none' ? 'block' : 'none';
-      }
-    });
-
-    playlistItems.forEach(item => {
-      item.addEventListener('click', () => {
-        playlistItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-
-        const songSrc = item.getAttribute('data-src');
-        audio.src = songSrc;
-        nowPlaying.textContent = `Now Playing: ${item.textContent}`;
-        audio.play();
-        player.classList.add('playing');
       });
-    });
 
-    // Auto-play next song when current ends
-    audio.addEventListener('ended', () => {
-      const currentItem = document.querySelector('.playlist-item.active');
-      let nextItem = currentItem.nextElementSibling;
-      if (!nextItem) nextItem = document.querySelector('.playlist-item:first-child');
-      if (nextItem) nextItem.click();
-    });
+      // Minimize/restore player
+      minimizePlayerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isMinimized = !isMinimized;
+        player.classList.toggle('minimized', isMinimized);
+        
+        // Add playing class when audio is playing
+        if (!audio.paused) {
+          player.classList.add('playing');
+        } else {
+          player.classList.remove('playing');
+        }
+      });
+
+      // Restore player when clicking minimized version
+      player.addEventListener('click', (e) => {
+        if (isMinimized && (e.target === player || e.target.classList.contains('playing'))) {
+          isMinimized = false;
+          player.classList.remove('minimized');
+          player.classList.remove('playing');
+        }
+      });
+
+      // Toggle playlist when clicking now playing
+      nowPlaying.addEventListener('click', () => {
+        if (!isMinimized) {
+          playlist.style.display = playlist.style.display === 'none' ? 'block' : 'none';
+        }
+      });
+
+      playlistItems.forEach(item => {
+        item.addEventListener('click', () => {
+          playlistItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+
+          const songSrc = item.getAttribute('data-src');
+          audio.src = songSrc;
+          nowPlaying.textContent = `Now Playing: ${item.textContent}`;
+          audio.play();
+          player.classList.add('playing');
+        });
+      });
+
+      // Auto-play next song when current ends
+      audio.addEventListener('ended', () => {
+        const currentItem = document.querySelector('.playlist-item.active');
+        let nextItem = currentItem.nextElementSibling;
+        if (!nextItem) nextItem = document.querySelector('.playlist-item:first-child');
+        if (nextItem) nextItem.click();
+      });
+    }
 
     // Mobile menu toggle - now on the left
     const menuToggle = document.getElementById('menu-toggle');
@@ -912,9 +921,15 @@
     const saveDictionaryBtn = document.getElementById('save-dictionary-btn');
 
     function loadDictionary() {
-      // In a real app, this would load from a backend
-      fetch('http://localhost:3001/api/dictionary')
-        .then(response => response.json())
+      fetch(`${API_BASE}/api/dictionary`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
         .then(words => {
           dictionaryTable.innerHTML = '';
           words.forEach((word, index) => {
@@ -966,14 +981,18 @@
       }
 
       // Save to backend
-      fetch('http://localhost:3001/api/dictionary', {
+      fetch(`${API_BASE}/api/dictionary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify(words)
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
         alert('Dictionary saved successfully!');
       })
@@ -998,9 +1017,11 @@
     const addLessonBtn = document.getElementById('add-lesson-btn');
 
     function loadGrammarLessons() {
-      // In a real app, this would load from a backend
-      fetch('http://localhost:3001/api/lessons')
-        .then(response => response.json())
+      fetch(`${API_BASE}/api/lessons`)
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
         .then(lessons => {
           lessonsContainer.innerHTML = '';
           lessons.forEach((lesson, index) => {
@@ -1071,14 +1092,18 @@
         const lesson = { title, content, image };
 
         // Save to backend
-        fetch('http://localhost:3001/api/lessons', {
+        fetch(`${API_BASE}/api/lessons`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
           },
           body: JSON.stringify({ index, lesson })
         })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
         .then(data => {
           alert('Lesson saved successfully!');
         })
@@ -1098,14 +1123,18 @@
           const index = e.target.getAttribute('data-index');
           
           // Delete from backend
-          fetch('http://localhost:3001/api/lessons', {
+          fetch(`${API_BASE}/api/lessons`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({ index })
           })
-          .then(response => response.json())
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+          })
           .then(data => {
             lessonsContainer.removeChild(lessonsContainer.children[index]);
             alert('Lesson deleted successfully!');
@@ -1132,18 +1161,21 @@
       const username = document.getElementById('login-username').value;
       const password = document.getElementById('login-password').value;
 
-      fetch('http://localhost:3001/api/login', {
+      fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
         if (data.success) {
           alert('Login successful!');
-          // Store token for future requests
+          authToken = data.token;
           localStorage.setItem('authToken', data.token);
         } else {
           alert('Login failed: ' + data.message);
@@ -1167,14 +1199,17 @@
         return;
       }
 
-      fetch('http://localhost:3001/api/register', {
+      fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, email, password })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
         if (data.success) {
           alert('Registration successful! You can now login.');
@@ -1198,14 +1233,17 @@
       const email = document.getElementById('contact-email').value;
       const message = document.getElementById('contact-message').value;
 
-      fetch('http://localhost:3001/api/contact', {
+      fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, email, message })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
         if (data.success) {
           alert('Thank you for your message! We will get back to you soon.');
